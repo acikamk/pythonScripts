@@ -1,0 +1,147 @@
+events: Hits
+
+fl=(1) /build/glibc-Qz8a69/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) 0x000000000049e369
+calls=4 0
+291 4
+
+fl=(2) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/WNT_Signalling_r371946/codeGeneration/inputs/cvodestools.c
+fn=(3) integrate_time_course
+cfl=??
+cfn=(4) CVode
+calls=4 0
+216 4
+
+fl=(3) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/WNT_Signalling_r371946/codeGeneration/inputs/modeltools.c
+fn=(5) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(3)
+cfn=(6) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=4 3249
+2960 4
+
+fl=(3)
+fn=(6)
+cfl=(2)
+cfn=(3)
+calls=4 216
+3249 4
+
+fl=??
+fn=(7) 0x00000000004c994e
+cfl=??
+cfn=(8) 0x00000000004c9b6e
+calls=4 0
+0 4
+
+fl=??
+fn=(9) 0x00000000004f1e6e
+cfl=??
+cfn=(10) 0x00000000004c2088
+calls=4 0
+0 4
+
+fl=??
+fn=(8)
+cfl=??
+cfn=(11) 0x00000000004b0de2
+calls=4 0
+0 4
+
+fl=??
+fn=(4)
+cfl=(4) cvodes.c
+cfn=(12) cvStep
+calls=4 0
+0 4
+
+fl=??
+fn=(13) 0x00000000004eaf80
+cfl=??
+cfn=(14) 0x00000000004ec801
+calls=4 0
+0 4
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(13)
+calls=4 0
+0 4
+
+fl=??
+fn=(10)
+cfl=??
+cfn=(15) 0x00000000004c22e4
+calls=4 0
+0 4
+
+fl=??
+fn=(16) N_VLinearSum_Serial
+0 1
+
+fl=??
+fn=(15)
+cfl=??
+cfn=(7)
+calls=4 0
+0 4
+
+fl=??
+fn=(14)
+cfl=??
+cfn=(9)
+calls=4 0
+0 4
+
+fl=??
+fn=(11)
+cfl=(3)
+cfn=(5)
+calls=4 2960
+0 4
+
+fl=??
+fn=(17) klu_refactor
+0 2
+
+fl=??
+fn=(18) klu_solve
+0 1
+
+fl=(4)
+fn=(12)
+cfl=(5) cvodes_klu.c
+cfn=(19) cvKLUSolve
+calls=1 0
+0 1
+
+fl=(4)
+fn=(12)
+cfl=(5)
+cfn=(20) cvKLUSetup
+calls=2 0
+0 2
+
+fl=(4)
+fn=(12)
+cfl=??
+cfn=(16)
+calls=1 0
+0 1
+
+fl=(5)
+fn=(19)
+cfl=??
+cfn=(18)
+calls=1 0
+0 1
+
+fl=(5)
+fn=(20)
+cfl=??
+cfn=(17)
+calls=2 0
+0 2
+

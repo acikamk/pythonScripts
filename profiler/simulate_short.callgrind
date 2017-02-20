@@ -1,0 +1,148 @@
+events: Hits
+
+fl=(1) /build/glibc-GKVZIf/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) unknown
+calls=556 0
+291 556
+
+fl=(2) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/cvodestools.c
+fn=(3) integrate_time_course
+cfl=??
+cfn=(4) CVode
+calls=556 0
+216 556
+
+fl=(3) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/modeltools.c
+fn=(5) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(3)
+cfn=(6) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=556 3249
+2960 556
+
+fl=(3)
+fn=(6)
+cfl=(2)
+cfn=(3)
+calls=556 216
+3249 556
+
+fl=??
+fn=(7) klu_factor
+cfl=??
+cfn=(8) klu_kernel_factor
+calls=123 0
+0 123
+
+fl=??
+fn=(9) klu_refactor
+0 428
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(2)
+calls=3892 0
+0 3892
+
+fl=??
+fn=(8)
+cfl=??
+cfn=(10) klu_kernel
+calls=123 0
+0 123
+
+fl=??
+fn=(2)
+cfl=(3)
+cfn=(5)
+calls=556 2960
+0 556
+
+fl=??
+fn=(11) colamd
+0 3
+
+fl=??
+fn=(12) klu_analyze
+cfl=??
+cfn=(11)
+calls=3 0
+0 3
+
+fl=??
+fn=(10)
+0 123
+
+fl=??
+fn=(13) klu_lsolve
+0 1
+
+fl=??
+fn=(14) klu_solve
+cfl=??
+cfn=(15) klu_usolve
+calls=1 0
+0 1
+
+fl=??
+fn=(4)
+cfl=(4) cvodes.c
+cfn=(16) cvStep
+calls=556 0
+0 556
+
+fl=??
+fn=(15)
+0 1
+
+fl=??
+fn=(14)
+cfl=??
+cfn=(13)
+calls=1 0
+0 1
+
+fl=(4)
+fn=(16)
+cfl=(5) cvodes_klu.c
+cfn=(17) cvKLUSolve
+calls=2 0
+0 2
+
+fl=(4)
+fn=(16)
+cfl=(5)
+cfn=(18) cvKLUSetup
+calls=554 0
+0 554
+
+fl=(5)
+fn=(18)
+cfl=??
+cfn=(7)
+calls=123 0
+0 123
+
+fl=(5)
+fn=(18)
+cfl=??
+cfn=(12)
+calls=3 0
+0 3
+
+fl=(5)
+fn=(17)
+cfl=??
+cfn=(14)
+calls=2 0
+0 2
+
+fl=(5)
+fn=(18)
+cfl=??
+cfn=(9)
+calls=428 0
+0 428
+

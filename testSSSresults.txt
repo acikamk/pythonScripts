@@ -1,0 +1,91 @@
+(my_new_env) a.kovachev@workstation23:~/pybios/ThoughtExperiments/thoughtExperiments/scripts/testSimulations$ python testSSSpeed.py -c tsss.cfg		
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01) Process time normal: 	117.941781	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time normal: 	120.143069	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time normal: 	121.687085	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time normal: 	114.893681	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time normal: 	99.521456	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time normal: 	100.545868	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time normal: 	111.621872	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time normal: 	116.350917	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time normal: 	112.616726	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time normal: 	119.723769	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time normal: 	103.42325	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01) Process time normal: 	107.533199	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time normal: 	135.676206	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time normal: 	99.515733	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time normal: 	99.269702	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time normal: 	108.917541	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time normal: 	112.872898	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time normal: 	117.550479	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time normal: 	97.024133	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time normal: 	102.63359	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time normal: 	137.775823	
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time normal: 	109.858969	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01) Process time normal: 	99.913519	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time normal: 	117.37487	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time normal: 	111.635261	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time normal: 	77.381935	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time normal: 	99.302736	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time normal: 	91.033062	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time normal: 	112.796713	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time normal: 	98.118256	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time normal: 	123.790412	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time normal: 	96.092221	
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time normal: 	108.647639	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01) Process time normal: 	112.687326	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time normal: 	128.080949	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time normal: 	147.678	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time normal: 	96.940005	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time normal: 	125.338167	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time normal: 	102.368519	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time normal: 	108.327108	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time normal: 	123.829476	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time normal: 	133.543403	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time normal: 	125.463145	
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time normal: 	101.441105	
+4908.881574	4908.881574	
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01) Process time ss: 	117.010293	117.941781
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time ss: 	37.32983	120.143069
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time ss: 	51.739365	121.687085
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time ss: 	69.451812	114.893681
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time ss: 	91.588072	99.521456
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time ss: 	121.793332	100.545868
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time ss: 	23.088303	111.621872
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time ss: 	40.726758	116.350917
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time ss: 	55.439898	112.616726
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time ss: 	78.337984	119.723769
+(TUMOR-364-CB-M-MF-01-04-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time ss: 	100.46538	103.42325
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01) Process time ss: 	102.124158	107.533199
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time ss: 	37.609379	135.676206
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time ss: 	56.816393	99.515733
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time ss: 	57.867058	99.269702
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time ss: 	97.685133	108.917541
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time ss: 	124.650181	112.872898
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time ss: 	36.036443	117.550479
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time ss: 	44.530099	97.024133
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time ss: 	42.679909	102.63359
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time ss: 	75.928318	137.775823
+(TUMOR-327-MB-P-TF-01-03-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time ss: 	101.386791	109.858969
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01) Process time ss: 	101.897529	99.913519
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time ss: 	26.58747	117.37487
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time ss: 	39.981338	111.635261
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time ss: 	59.061922	77.381935
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time ss: 	76.403872	99.302736
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time ss: 	110.432398	91.033062
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time ss: 	21.847348	112.796713
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time ss: 	31.189204	98.118256
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time ss: 	43.276694	123.790412
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time ss: 	65.272854	96.092221
+(TUMOR-114-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time ss: 	96.01936	108.647639
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01) Process time ss: 	113.750156	112.687326
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc9.145nM) Process time ss: 	27.226665	128.080949
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc82.305nM) Process time ss: 	47.733233	147.678
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc740.741nM) Process time ss: 	53.716064	96.940005
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc6666.67nM) Process time ss: 	71.814153	125.338167
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc60000.0nM) Process time ss: 	107.904149	102.368519
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc3.048nM) Process time ss: 	24.922398	108.327108
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc27.435nM) Process time ss: 	37.313419	123.829476
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc246.914nM) Process time ss: 	53.949754	133.543403
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc2222.22nM) Process time ss: 	74.485537	125.463145
+(TUMOR-108-CB-P-TF-01-04-XEN-01-15-TF-01-01-PRI-01-cellline-01-01_Afatinib_Conc20000.0nM) Process time ss: 	96.642658	101.441105
+2945.713064	66.9480241818	111.5654903182

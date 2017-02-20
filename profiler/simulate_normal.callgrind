@@ -1,0 +1,401 @@
+events: Hits
+
+fl=(1) /build/glibc-GKVZIf/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) unknown
+calls=5413 0
+291 5413
+
+fl=(2) /build/glibc-GKVZIf/glibc-2.23/malloc/malloc.c
+fn=(3) __GI___libc_realloc
+cfl=(2)
+cfn=(4) _int_realloc
+calls=1 4335
+3046 1
+
+fl=(2)
+fn=(4)
+cfl=(3) /build/glibc-GKVZIf/glibc-2.23/string/../sysdeps/x86_64/multiarch/../memcpy.S
+cfn=(5) __memcpy_sse2
+calls=1 507
+4335 1
+
+fl=(4) /build/glibc-GKVZIf/glibc-2.23/math/../sysdeps/ieee754/dbl-64/e_pow.c
+fn=(6) __ieee754_pow_sse2
+78 1
+
+fl=(5) /build/glibc-GKVZIf/glibc-2.23/math/w_pow.c
+fn=(7) __pow
+cfl=(4)
+cfn=(6)
+calls=1 78
+27 1
+
+fl=(3)
+fn=(5)
+507 1
+
+fl=(6) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/cvodestools.c
+fn=(8) integrate_time_course
+cfl=??
+cfn=(9) CVode
+calls=5413 0
+216 5413
+
+fl=(7) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/modeltools.c
+fn=(10) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(7)
+cfn=(11) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=5413 3249
+2960 5413
+
+fl=(7)
+fn=(11)
+cfl=(6)
+cfn=(8)
+calls=5413 216
+3249 5413
+
+fl=(8) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/pybiosmodel.c
+fn=(12) getV_0
+135 1
+
+fl=(8)
+fn=(13) getV_2
+2073 1
+
+fl=(8)
+fn=(13)
+2074 1
+
+fl=(8)
+fn=(13)
+cfl=(5)
+cfn=(7)
+calls=1 27
+2179 1
+
+fl=(8)
+fn=(13)
+2921 1
+
+fl=(8)
+fn=(14) getSdot_5
+26322 1
+
+fl=(8)
+fn=(15) getSdot_6
+27546 1
+
+fl=(8)
+fn=(16) model_f
+cfl=(8)
+cfn=(12)
+calls=1 135
+203239 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(13)
+calls=1 2073
+203241 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(13)
+calls=1 2921
+203241 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(13)
+calls=1 2179
+203241 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(13)
+calls=1 2074
+203241 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(14)
+calls=1 26322
+203267 1
+
+fl=(8)
+fn=(16)
+cfl=(8)
+cfn=(15)
+calls=1 27546
+203268 1
+
+fl=??
+fn=(17) SUNRabs
+0 4
+
+fl=??
+fn=(18) klu_usolve
+0 72
+
+fl=??
+fn=(19) klu_analyze
+cfl=??
+cfn=(20) colamd
+calls=3 0
+0 3
+
+fl=??
+fn=(21) klu_kernel
+cfl=??
+cfn=(22) klu_realloc
+calls=1 0
+0 1
+
+fl=??
+fn=(2)
+cfl=(7)
+cfn=(10)
+calls=5413 2960
+0 5413
+
+fl=??
+fn=(23) N_VInv_Serial
+0 1
+
+fl=??
+fn=(24) N_VAbs_Serial
+cfl=??
+cfn=(17)
+calls=4 0
+0 4
+
+fl=??
+fn=(25) cvEwtSet
+cfl=??
+cfn=(23)
+calls=1 0
+0 1
+
+fl=??
+fn=(26) N_VLinearSum_Serial
+0 1
+
+fl=??
+fn=(9)
+cfl=(9) cvodes.c
+cfn=(27) cvStep
+calls=5407 0
+0 5407
+
+fl=??
+fn=(28) klu_refactor
+0 5118
+
+fl=??
+fn=(29) klu_kernel_factor
+cfl=??
+cfn=(21)
+calls=125 0
+0 125
+
+fl=??
+fn=(20)
+0 3
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(2)
+calls=37891 0
+0 37891
+
+fl=??
+fn=(30) klu_factor
+cfl=??
+cfn=(29)
+calls=125 0
+0 125
+
+fl=??
+fn=(21)
+0 124
+
+fl=??
+fn=(31) N_VWrmsNorm_Serial
+0 4
+
+fl=??
+fn=(32) klu_solve
+0 3
+
+fl=??
+fn=(32)
+cfl=??
+cfn=(33) klu_lsolve
+calls=70 0
+0 70
+
+fl=??
+fn=(34) klu_scale
+0 2
+
+fl=??
+fn=(33)
+0 70
+
+fl=??
+fn=(9)
+cfl=??
+cfn=(25)
+calls=6 0
+0 6
+
+fl=??
+fn=(25)
+cfl=??
+cfn=(24)
+calls=5 0
+0 5
+
+fl=??
+fn=(35) N_VScale_Serial
+0 2
+
+fl=??
+fn=(28)
+cfl=??
+cfn=(34)
+calls=2 0
+0 2
+
+fl=??
+fn=(24)
+0 1
+
+fl=??
+fn=(22)
+cfl=(2)
+cfn=(3)
+calls=1 3046
+0 1
+
+fl=??
+fn=(32)
+cfl=??
+cfn=(18)
+calls=72 0
+0 72
+
+fl=(9)
+fn=(36) cvRescale
+cfl=??
+cfn=(35)
+calls=1 0
+0 1
+
+fl=(9)
+fn=(27)
+cfl=(9)
+cfn=(36)
+calls=1 0
+0 1
+
+fl=(9)
+fn=(27)
+cfl=(8)
+cfn=(16)
+calls=1 203267
+0 1
+
+fl=(9)
+fn=(27)
+cfl=??
+cfn=(26)
+calls=1 0
+0 1
+
+fl=(9)
+fn=(27)
+cfl=(10) cvodes_klu.c
+cfn=(37) cvKLUSetup
+calls=5248 0
+0 5248
+
+fl=(9)
+fn=(27)
+cfl=(8)
+cfn=(16)
+calls=1 203268
+0 1
+
+fl=(9)
+fn=(27)
+cfl=(10)
+cfn=(38) cvKLUSolve
+calls=145 0
+0 145
+
+fl=(9)
+fn=(27)
+cfl=(8)
+cfn=(16)
+calls=1 203239
+0 1
+
+fl=(9)
+fn=(27)
+cfl=(8)
+cfn=(16)
+calls=4 203241
+0 4
+
+fl=(9)
+fn=(27)
+cfl=??
+cfn=(35)
+calls=1 0
+0 1
+
+fl=(9)
+fn=(27)
+cfl=??
+cfn=(31)
+calls=4 0
+0 4
+
+fl=(10)
+fn=(38)
+cfl=??
+cfn=(32)
+calls=145 0
+0 145
+
+fl=(10)
+fn=(37)
+cfl=??
+cfn=(19)
+calls=3 0
+0 3
+
+fl=(10)
+fn=(37)
+cfl=??
+cfn=(28)
+calls=5120 0
+0 5120
+
+fl=(10)
+fn=(37)
+cfl=??
+cfn=(30)
+calls=125 0
+0 125
+

@@ -1,0 +1,467 @@
+events: Hits
+
+fl=(1) /build/glibc-GKVZIf/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) unknown
+calls=6536 0
+291 6536
+
+fl=(2) /build/glibc-GKVZIf/glibc-2.23/string/../sysdeps/x86_64/multiarch/../memset.S
+fn=(3) __memset_sse2
+53 1
+
+fl=(3) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/cvodestools.c
+fn=(4) integrate_time_course
+cfl=??
+cfn=(5) CVode
+calls=6538 0
+216 6538
+
+fl=(4) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/modeltools.c
+fn=(6) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(4)
+cfn=(7) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=6538 3249
+2960 6538
+
+fl=(4)
+fn=(7)
+cfl=(3)
+cfn=(4)
+calls=6538 216
+3249 6538
+
+fl=(5) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/pybiosmodel.c
+fn=(8) getV_0
+725 1
+
+fl=(5)
+fn=(8)
+934 1
+
+fl=(5)
+fn=(9) getV_3
+3543 1
+
+fl=(5)
+fn=(10) getV_7
+7428 1
+
+fl=(5)
+fn=(11) getV_16
+16970 1
+
+fl=(5)
+fn=(12) getV_18
+19016 1
+
+fl=(5)
+fn=(13) getV_19
+20085 1
+
+fl=(5)
+fn=(14) getSdot_2[inline]
+24019 1
+
+fl=(5)
+fn=(15) getSdot_4
+25354 1
+
+fl=(5)
+fn=(16) getSdot_7[inline]
+28814 1
+
+fl=(5)
+fn=(17) model_f
+203236 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(8)
+calls=1 725
+203239 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(8)
+calls=1 934
+203239 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(9)
+calls=1 3543
+203242 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(10)
+calls=1 7428
+203246 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(11)
+calls=1 16970
+203255 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(12)
+calls=1 19016
+203257 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(13)
+calls=1 20085
+203258 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(14)
+calls=1 24019
+203264 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(15)
+calls=1 25354
+203266 1
+
+fl=(5)
+fn=(17)
+cfl=(5)
+cfn=(16)
+calls=1 28814
+203269 1
+
+fl=??
+fn=(18) N_VMin_Serial
+0 3
+
+fl=??
+fn=(19) cvEwtSet
+cfl=??
+cfn=(18)
+calls=3 0
+0 3
+
+fl=??
+fn=(2)
+cfl=(4)
+cfn=(6)
+calls=6538 2960
+0 6538
+
+fl=??
+fn=(5)
+cfl=??
+cfn=(19)
+calls=8 0
+0 8
+
+fl=??
+fn=(20) N_VInv_Serial
+0 2
+
+fl=??
+fn=(21) klu_solve
+0 4
+
+fl=??
+fn=(22) klu_kernel
+0 134
+
+fl=??
+fn=(21)
+cfl=??
+cfn=(23) klu_usolve
+calls=90 0
+0 90
+
+fl=??
+fn=(5)
+cfl=??
+cfn=(24) N_VWrmsNorm_Serial
+calls=1 0
+0 1
+
+fl=??
+fn=(23)
+0 90
+
+fl=??
+fn=(5)
+cfl=(6) cvodes.c
+cfn=(25) cvStep
+calls=6529 0
+0 6529
+
+fl=??
+fn=(26) klu_kernel_factor
+cfl=??
+cfn=(22)
+calls=134 0
+0 134
+
+fl=??
+fn=(27) klu_factor
+cfl=??
+cfn=(26)
+calls=134 0
+0 134
+
+fl=??
+fn=(28) N_VScale_Serial
+0 1
+
+fl=??
+fn=(29) AddIdentitySparseMat
+0 2
+
+fl=??
+fn=(30) colamd
+0 2
+
+fl=??
+fn=(31) SUNRabs
+0 2
+
+fl=??
+fn=(32) CopySparseMat
+cfl=??
+cfn=(33) SlsSetToZero
+calls=1 0
+0 1
+
+fl=??
+fn=(19)
+cfl=??
+cfn=(34) N_VAbs_Serial
+calls=3 0
+0 3
+
+fl=??
+fn=(33)
+0 1
+
+fl=??
+fn=(35) klu_lsolve
+0 71
+
+fl=??
+fn=(24)
+0 1
+
+fl=??
+fn=(30)
+cfl=(2)
+cfn=(3)
+calls=1 53
+0 1
+
+fl=??
+fn=(34)
+cfl=??
+cfn=(36) _init
+calls=1 0
+0 1
+
+fl=??
+fn=(36)
+0 1
+
+fl=??
+fn=(37) klu_refactor
+0 6207
+
+fl=??
+fn=(19)
+cfl=??
+cfn=(20)
+calls=2 0
+0 2
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(2)
+calls=45766 0
+0 45766
+
+fl=??
+fn=(34)
+cfl=??
+cfn=(31)
+calls=2 0
+0 2
+
+fl=??
+fn=(38) klu_analyze
+cfl=??
+cfn=(30)
+calls=3 0
+0 3
+
+fl=??
+fn=(39) N_VLinearSum_Serial
+0 5
+
+fl=??
+fn=(21)
+cfl=??
+cfn=(35)
+calls=71 0
+0 71
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=2 203239
+0 2
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203236
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203264
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203269
+0 1
+
+fl=(6)
+fn=(25)
+cfl=??
+cfn=(28)
+calls=1 0
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(7) cvodes_klu.c
+cfn=(40) cvKLUSolve
+calls=165 0
+0 165
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203255
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(7)
+cfn=(41) cvKLUSetup
+calls=6347 0
+0 6347
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203246
+0 1
+
+fl=(6)
+fn=(25)
+cfl=??
+cfn=(39)
+calls=5 0
+0 5
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203266
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203242
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203258
+0 1
+
+fl=(6)
+fn=(25)
+cfl=(5)
+cfn=(17)
+calls=1 203257
+0 1
+
+fl=(7)
+fn=(41)
+cfl=??
+cfn=(38)
+calls=3 0
+0 3
+
+fl=(7)
+fn=(41)
+cfl=??
+cfn=(27)
+calls=134 0
+0 134
+
+fl=(7)
+fn=(41)
+cfl=??
+cfn=(37)
+calls=6207 0
+0 6207
+
+fl=(7)
+fn=(41)
+cfl=??
+cfn=(29)
+calls=2 0
+0 2
+
+fl=(7)
+fn=(40)
+cfl=??
+cfn=(21)
+calls=165 0
+0 165
+
+fl=(7)
+fn=(41)
+cfl=??
+cfn=(32)
+calls=1 0
+0 1
+

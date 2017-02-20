@@ -1,0 +1,136 @@
+events: Hits
+
+fl=(1) /build/glibc-Qz8a69/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) 0x000000000049e369
+calls=1 0
+291 1
+
+fl=(2) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/WNT_Signalling_r371946/codeGeneration/inputs/cvodestools.c
+fn=(3) integrate_time_course
+cfl=??
+cfn=(4) CVode
+calls=2 0
+216 2
+
+fl=(3) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/WNT_Signalling_r371946/codeGeneration/inputs/modeltools.c
+fn=(5) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(3)
+cfn=(6) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=2 3249
+2960 2
+
+fl=(3)
+fn=(6)
+cfl=(2)
+cfn=(3)
+calls=2 216
+3249 2
+
+fl=(4) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/WNT_Signalling_r371946/codeGeneration/inputs/pybiosmodel.c
+fn=(7) getSdot_0[inline]
+1113 1
+
+fl=(4)
+fn=(8) model_f
+cfl=(4)
+cfn=(7)
+calls=1 1113
+8541 1
+
+fl=??
+fn=(9) 0x00000000004b0de2
+cfl=(3)
+cfn=(5)
+calls=2 2960
+0 2
+
+fl=??
+fn=(10) 0x00000000004ec801
+cfl=??
+cfn=(11) 0x00000000004f1e6e
+calls=2 0
+0 2
+
+fl=??
+fn=(12) 0x00000000004eaf80
+cfl=??
+cfn=(10)
+calls=2 0
+0 2
+
+fl=??
+fn=(13) 0x00000000004c9b6e
+cfl=??
+cfn=(9)
+calls=2 0
+0 2
+
+fl=??
+fn=(4)
+cfl=(5) cvodes.c
+cfn=(14) cvStep
+calls=2 0
+0 2
+
+fl=??
+fn=(15) 0x00000000004c22e4
+cfl=??
+cfn=(16) 0x00000000004c994e
+calls=2 0
+0 2
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(12)
+calls=2 0
+0 2
+
+fl=??
+fn=(16)
+cfl=??
+cfn=(13)
+calls=2 0
+0 2
+
+fl=??
+fn=(11)
+cfl=??
+cfn=(17) 0x00000000004c2088
+calls=2 0
+0 2
+
+fl=??
+fn=(17)
+cfl=??
+cfn=(15)
+calls=2 0
+0 2
+
+fl=??
+fn=(18) klu_refactor
+0 1
+
+fl=(5)
+fn=(14)
+cfl=(6) cvodes_klu.c
+cfn=(19) cvKLUSetup
+calls=1 0
+0 1
+
+fl=(5)
+fn=(14)
+cfl=(4)
+cfn=(8)
+calls=1 8541
+0 1
+
+fl=(6)
+fn=(19)
+cfl=??
+cfn=(18)
+calls=1 0
+0 1
+

@@ -1,0 +1,247 @@
+events: Hits
+
+fl=(1) /build/glibc-Qz8a69/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) 0x000000000049e369
+calls=988 0
+291 988
+
+fl=(2) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/cvodestools.c
+fn=(3) integrate_time_course
+cfl=??
+cfn=(4) CVode
+calls=987 0
+216 987
+
+fl=(2)
+fn=(3)
+cfl=??
+cfn=(5) CVodeFree
+calls=1 0
+225 1
+
+fl=(3) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/modeltools.c
+fn=(6) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(3)
+cfn=(7) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=988 3249
+2960 988
+
+fl=(3)
+fn=(7)
+cfl=(2)
+cfn=(3)
+calls=1 225
+3249 1
+
+fl=(3)
+fn=(7)
+cfl=(2)
+cfn=(3)
+calls=987 216
+3249 987
+
+fl=(4) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/pybiosmodel.c
+fn=(8) getV_13
+13737 1
+
+fl=(4)
+fn=(9) model_f
+cfl=(4)
+cfn=(8)
+calls=1 13737
+203252 1
+
+fl=??
+fn=(10) 0x00000000004c22e4
+cfl=??
+cfn=(11) 0x00000000004c994e
+calls=988 0
+0 988
+
+fl=??
+fn=(4)
+cfl=(5) cvodes.c
+cfn=(12) cvStep
+calls=987 0
+0 987
+
+fl=??
+fn=(13) 0x00000000004c2088
+cfl=??
+cfn=(10)
+calls=988 0
+0 988
+
+fl=??
+fn=(14) colamd
+0 5
+
+fl=??
+fn=(15) klu_free_numeric
+0 1
+
+fl=??
+fn=(16) 0x00000000004f1e6e
+cfl=??
+cfn=(13)
+calls=988 0
+0 988
+
+fl=??
+fn=(17) klu_solve
+cfl=??
+cfn=(18) klu_lsolve
+calls=3 0
+0 3
+
+fl=??
+fn=(19) 0x00000000004b0de2
+cfl=(3)
+cfn=(6)
+calls=988 2960
+0 988
+
+fl=??
+fn=(5)
+cfl=(6) cvodes_klu.c
+cfn=(20) cvKLUFree
+calls=1 0
+0 1
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(21) 0x00000000004eaf80
+calls=988 0
+0 988
+
+fl=??
+fn=(21)
+cfl=??
+cfn=(22) 0x00000000004ec801
+calls=988 0
+0 988
+
+fl=??
+fn=(22)
+cfl=??
+cfn=(16)
+calls=988 0
+0 988
+
+fl=??
+fn=(23) 0x00000000004c9b6e
+cfl=??
+cfn=(19)
+calls=988 0
+0 988
+
+fl=??
+fn=(24) klu_analyze
+cfl=??
+cfn=(14)
+calls=5 0
+0 5
+
+fl=??
+fn=(25) klu_kernel_factor
+cfl=??
+cfn=(26) klu_kernel
+calls=200 0
+0 200
+
+fl=??
+fn=(27) N_VLinearSum_Serial
+0 1
+
+fl=??
+fn=(26)
+0 200
+
+fl=??
+fn=(18)
+0 3
+
+fl=??
+fn=(28) klu_refactor
+0 777
+
+fl=??
+fn=(29) klu_factor
+cfl=??
+cfn=(25)
+calls=200 0
+0 200
+
+fl=??
+fn=(11)
+cfl=??
+cfn=(23)
+calls=988 0
+0 988
+
+fl=(5)
+fn=(12)
+cfl=??
+cfn=(27)
+calls=1 0
+0 1
+
+fl=(5)
+fn=(12)
+cfl=(6)
+cfn=(30) cvKLUSolve
+calls=3 0
+0 3
+
+fl=(5)
+fn=(12)
+cfl=(4)
+cfn=(9)
+calls=1 203252
+0 1
+
+fl=(5)
+fn=(12)
+cfl=(6)
+cfn=(31) cvKLUSetup
+calls=982 0
+0 982
+
+fl=(6)
+fn=(31)
+cfl=??
+cfn=(28)
+calls=777 0
+0 777
+
+fl=(6)
+fn=(31)
+cfl=??
+cfn=(24)
+calls=5 0
+0 5
+
+fl=(6)
+fn=(30)
+cfl=??
+cfn=(17)
+calls=3 0
+0 3
+
+fl=(6)
+fn=(20)
+cfl=??
+cfn=(15)
+calls=1 0
+0 1
+
+fl=(6)
+fn=(31)
+cfl=??
+cfn=(29)
+calls=200 0
+0 200
+

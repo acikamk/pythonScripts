@@ -1,0 +1,569 @@
+events: Hits
+
+fl=(1) /build/glibc-Qz8a69/glibc-2.23/csu/../csu/libc-start.c
+fn=(1) __libc_start_main
+cfl=??
+cfn=(2) 0x000000000049e369
+calls=7659 0
+291 7659
+
+fl=(2) /build/glibc-Qz8a69/glibc-2.23/malloc/malloc.c
+fn=(3) __GI___libc_realloc
+cfl=(2)
+cfn=(4) _int_realloc
+calls=1 4332
+3043 1
+
+fl=(2)
+fn=(4)
+cfl=(3) /build/glibc-Qz8a69/glibc-2.23/string/../sysdeps/x86_64/multiarch/../memcpy.S
+cfn=(5) __memcpy_sse2
+calls=1 528
+4332 1
+
+fl=(3)
+fn=(5)
+528 1
+
+fl=(4) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/cvodestools.c
+fn=(6) integrate_time_course
+cfl=??
+cfn=(7) CVode
+calls=7661 0
+216 7661
+
+fl=(5) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/modeltools.c
+fn=(8) __pyx_pw_10modeltools_14ModelProcessor_7simulate_time_course
+cfl=(5)
+cfn=(9) __pyx_pf_10modeltools_14ModelProcessor_6simulate_time_course.isra.27
+calls=7661 3249
+2960 7661
+
+fl=(5)
+fn=(9)
+cfl=(4)
+cfn=(6)
+calls=7661 216
+3249 7661
+
+fl=(6) /project/V0001-1/modcell/modcell_data/models/c_pybios_models/simtools/data/results/CancerSignalling_Mutations_Drugs_v2016_Birmingham_r371850/codeGeneration/inputs/pybiosmodel.c
+fn=(10) getV_0
+248 1
+
+fl=(6)
+fn=(10)
+379 1
+
+fl=(6)
+fn=(11) getV_5
+5755 1
+
+fl=(6)
+fn=(11)
+5893 1
+
+fl=(6)
+fn=(12) getV_11
+11940 1
+
+fl=(6)
+fn=(13) getV_12
+12649 1
+
+fl=(6)
+fn=(14) getV_13
+13706 1
+
+fl=(6)
+fn=(15) getSdot_0[inline]
+21334 1
+
+fl=(6)
+fn=(15)
+21872 1
+
+fl=(6)
+fn=(16) getSdot_4
+25828 1
+
+fl=(6)
+fn=(17) getSdot_6
+27977 1
+
+fl=(6)
+fn=(18) model_f
+cfl=(6)
+cfn=(10)
+calls=1 248
+203239 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(10)
+calls=1 379
+203239 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(11)
+calls=1 5893
+203244 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(11)
+calls=1 5755
+203244 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(12)
+calls=1 11940
+203250 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(13)
+calls=1 12649
+203251 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(14)
+calls=1 13706
+203252 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(15)
+calls=1 21872
+203262 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(15)
+calls=1 21334
+203262 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(16)
+calls=1 25828
+203266 1
+
+fl=(6)
+fn=(18)
+cfl=(6)
+cfn=(17)
+calls=1 27977
+203268 1
+
+fl=??
+fn=(19) klu_kernel
+0 206
+
+fl=??
+fn=(20) SlsSetToZero
+0 2
+
+fl=??
+fn=(7)
+cfl=(7) cvodes.c
+cfn=(21) cvStep
+calls=7655 0
+0 7655
+
+fl=??
+fn=(22) klu_solve
+cfl=??
+cfn=(23) klu_usolve
+calls=114 0
+0 114
+
+fl=??
+fn=(24) klu_refactor
+0 7200
+
+fl=??
+fn=(25) cvEwtSet
+cfl=??
+cfn=(26) N_VInv_Serial
+calls=2 0
+0 2
+
+fl=??
+fn=(2)
+cfl=??
+cfn=(27) 0x00000000004eaf80
+calls=7661 0
+0 7661
+
+fl=??
+fn=(28) 0x00000000004b0de2
+cfl=(5)
+cfn=(8)
+calls=7661 2960
+0 7661
+
+fl=??
+fn=(22)
+cfl=??
+cfn=(29) klu_lsolve
+calls=90 0
+0 90
+
+fl=??
+fn=(23)
+0 114
+
+fl=??
+fn=(25)
+cfl=??
+cfn=(30) N_VAbs_Serial
+calls=2 0
+0 2
+
+fl=??
+fn=(31) N_VScale_Serial
+0 2
+
+fl=??
+fn=(7)
+cfl=??
+cfn=(32) CVodeGetDky
+calls=1 0
+0 1
+
+fl=??
+fn=(33) klu_factor
+cfl=??
+cfn=(34) klu_kernel_factor
+calls=207 0
+0 207
+
+fl=??
+fn=(35) 0x00000000004f1e6e
+cfl=??
+cfn=(36) 0x00000000004c2088
+calls=7661 0
+0 7661
+
+fl=??
+fn=(37) N_VLinearSum_Serial
+0 11
+
+fl=??
+fn=(38) 0x00000000004c994e
+cfl=??
+cfn=(39) 0x00000000004c9b6e
+calls=7661 0
+0 7661
+
+fl=??
+fn=(40) AddIdentitySparseMat
+0 2
+
+fl=??
+fn=(29)
+0 90
+
+fl=??
+fn=(25)
+cfl=??
+cfn=(41) N_VAddConst_Serial
+calls=1 0
+0 1
+
+fl=??
+fn=(42) CopySparseMat
+cfl=??
+cfn=(20)
+calls=2 0
+0 2
+
+fl=??
+fn=(43) 0x00000000004ec801
+cfl=??
+cfn=(35)
+calls=7661 0
+0 7661
+
+fl=??
+fn=(42)
+0 1
+
+fl=??
+fn=(44) klu_realloc
+cfl=(2)
+cfn=(3)
+calls=1 3043
+0 1
+
+fl=??
+fn=(7)
+cfl=??
+cfn=(25)
+calls=5 0
+0 5
+
+fl=??
+fn=(45) N_VWrmsNorm_Serial
+0 4
+
+fl=??
+fn=(32)
+cfl=??
+cfn=(37)
+calls=1 0
+0 1
+
+fl=??
+fn=(22)
+0 6
+
+fl=??
+fn=(41)
+0 1
+
+fl=??
+fn=(30)
+0 2
+
+fl=??
+fn=(39)
+cfl=??
+cfn=(28)
+calls=7661 0
+0 7661
+
+fl=??
+fn=(46) 0x00000000004c22e4
+cfl=??
+cfn=(38)
+calls=7661 0
+0 7661
+
+fl=??
+fn=(34)
+cfl=??
+cfn=(19)
+calls=207 0
+0 207
+
+fl=??
+fn=(26)
+0 2
+
+fl=??
+fn=(27)
+cfl=??
+cfn=(43)
+calls=7661 0
+0 7661
+
+fl=??
+fn=(47) colamd
+0 5
+
+fl=??
+fn=(36)
+cfl=??
+cfn=(46)
+calls=7661 0
+0 7661
+
+fl=??
+fn=(48) klu_analyze
+cfl=??
+cfn=(47)
+calls=5 0
+0 5
+
+fl=??
+fn=(19)
+cfl=??
+cfn=(44)
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(8) cvodes_klu.c
+cfn=(49) cvKLUSetup
+calls=7417 0
+0 7417
+
+fl=(7)
+fn=(21)
+cfl=(7)
+cfn=(50) cvRescale
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(7)
+cfn=(51) cvDoErrorTest
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=1 203266
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=2 203244
+0 2
+
+fl=(7)
+fn=(21)
+cfl=??
+cfn=(37)
+calls=9 0
+0 9
+
+fl=(7)
+fn=(21)
+0 1
+
+fl=(7)
+fn=(21)
+cfl=??
+cfn=(31)
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=2 203262
+0 2
+
+fl=(7)
+fn=(50)
+cfl=??
+cfn=(31)
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=1 203268
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=1 203251
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=2 203239
+0 2
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=1 203250
+0 1
+
+fl=(7)
+fn=(52) cvRestore
+cfl=??
+cfn=(37)
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(8)
+cfn=(53) cvKLUSolve
+calls=210 0
+0 210
+
+fl=(7)
+fn=(21)
+cfl=??
+cfn=(45)
+calls=4 0
+0 4
+
+fl=(7)
+fn=(51)
+cfl=(7)
+cfn=(52)
+calls=1 0
+0 1
+
+fl=(7)
+fn=(21)
+cfl=(6)
+cfn=(18)
+calls=1 203252
+0 1
+
+fl=(8)
+fn=(49)
+cfl=??
+cfn=(24)
+calls=7200 0
+0 7200
+
+fl=(8)
+fn=(49)
+cfl=??
+cfn=(48)
+calls=5 0
+0 5
+
+fl=(8)
+fn=(53)
+cfl=??
+cfn=(22)
+calls=210 0
+0 210
+
+fl=(8)
+fn=(49)
+cfl=??
+cfn=(33)
+calls=207 0
+0 207
+
+fl=(8)
+fn=(49)
+cfl=??
+cfn=(40)
+calls=2 0
+0 2
+
+fl=(8)
+fn=(49)
+cfl=??
+cfn=(42)
+calls=3 0
+0 3
+
