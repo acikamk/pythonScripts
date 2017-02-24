@@ -42,7 +42,7 @@ class ReadConfig(argparse.Action):
 parser = argparse.ArgumentParser( description = 
             """
             The script should be run calling:
-            plotsimresults -c /path/to/config/file
+            testSSSpeed -c /path/to/config/file
 
             # Necessary config data:
 
