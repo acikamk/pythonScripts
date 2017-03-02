@@ -61,9 +61,6 @@ parser.add_argument( '-c', '--config',
                     action = ReadConfig,
                     help = wrap_text("path to a config file. You get the config file structure by calling 'testSSSpeed -h'") )
 
-
-
-
 def main():
 
     # Take the config file from command line

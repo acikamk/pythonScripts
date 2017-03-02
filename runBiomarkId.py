@@ -12,7 +12,7 @@ from operator import itemgetter
 import tempfile
 import matplotlib.pyplot as plt
 
-# check if the path need to be forwarded as args
+# check if the paths need to be forwarded as args
 sys.path.append("/home/H0001-1/a.kovachev/pybios/AlacrisPython")
 sys.path.append("/home/H0001-1/a.kovachev/simtools/src")
 

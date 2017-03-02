@@ -22,8 +22,8 @@ The absolute and relative tolerances of the total species concentrations
 and the sample vise species concetrations
 """
 
-study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2016.12.06_09.34.29_499_Notch_Model_Testing/Studies/2280_forward_simulation_test/"
-simulation_path = "/project/V0001-1//modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_Debug_t_t_sim_test3/"
+study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2016.12.06_09.34.29_499_Notch_Model_Testing/Studies/2320_Notch_simulation_test/"
+simulation_path = "/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_Debug_t_f_sim_test3/"
 
 tabfiles_path = study_path + "/AnalysisResults/Tabfiles/"
 mapping_table = study_path + "MappingTable.txt"
@@ -66,7 +66,8 @@ abs_tol = Odict()
 rel_tol = Odict()
 tab_total_sum = sum([j for i in conc_dict_samples.values() for j in i])
 stat_total_sum = sum([j for i in states_dict.values() for j in i])  
-import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
+print tab_total_sum, stat_total_sum
 print "TOTAL SUM ABSOLUTE TOLERANCE: {0:.5f}\tRELATIVE TOLERANCE: {1:.5f}".\
 		format(abs(tab_total_sum-stat_total_sum),
 			   abs(1-tab_total_sum/stat_total_sum))
@@ -82,7 +83,6 @@ try:
 except:
 	print "SAMPLE NAMES IN SIMULATED FILE AND MAPPING TABLE NOT CONSISNTENT!"
 
-# import pdb; pdb.set_trace()
 #### additional code for macthing tabfiles to indetifiers.py
 #### extract species data from identifiers.py
 
