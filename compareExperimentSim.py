@@ -22,8 +22,8 @@ The absolute and relative tolerances of the total species concentrations
 and the sample vise species concetrations
 """
 
-study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2016.12.06_09.34.29_499_Notch_Model_Testing/Studies/2320_Notch_simulation_test/"
-simulation_path = "/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_Debug_t_f_sim_test3/"
+study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2017.03.03_13.37.29_554_Speedy_r378088_tests/Studies/2332_Speedy_r378088_sim/"
+simulation_path = "/project/V0001-1/modcell/users/a.kovachev/Speedy_v1_r378088/Speedy_v1_r378088_sim_02_02_17_rel"
 
 tabfiles_path = study_path + "/AnalysisResults/Tabfiles/"
 mapping_table = study_path + "MappingTable.txt"
