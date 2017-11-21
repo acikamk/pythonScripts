@@ -22,11 +22,13 @@ The absolute and relative tolerances of the total species concentrations
 and the sample vise species concetrations
 """
 
-study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2017.03.03_13.37.29_554_Speedy_r378088_tests/Studies/2332_Speedy_r378088_sim/"
-simulation_path = "/project/V0001-1/modcell/users/a.kovachev/Speedy_v1_r378088/Speedy_v1_r378088_sim_02_02_17_rel"
+study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2016.12.06_09.34.29_499_Notch_Model_Testing/Studies/2605_Notch_simulation_test" 
+#"/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2017.03.03_13.37.29_554_Speedy_r378088_tests/Studies/2332_Speedy_r378088_sim/"
+simulation_path = "/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Project_Manager_Tests/Notch_Debug_t_f_sim_test4/"
+#"/project/V0001-1/modcell/users/a.kovachev/Speedy_v1_r378088/Speedy_v1_r378088_sim_02_02_17_rel"
 
 tabfiles_path = study_path + "/AnalysisResults/Tabfiles/"
-mapping_table = study_path + "MappingTable.txt"
+mapping_table = study_path + "/MappingTable.txt"
 simulated_file = simulation_path + "/outputs/simulated_vectors_file.txt"
 f = open(mapping_table)
 info = f.readlines()
@@ -39,20 +41,22 @@ conc_dict_samples = Odict()
 
 # analyse tabfiles and create sample : conc dict and species : conc dict
 for file in tumor_files.keys():
-	try:
-		f =open(tabfiles_path + file)
-		info = f.readlines()
-		conc_dict_samples[tumor_files[file]] = \
-			[float(i.split()[-1]) for i in info]
-		keys = [' '.join(i.split()[0:-1]) for i in info]
-		vals = [float(i.split()[-1]) for i in info]
-		if not conc_dict:
-			for k in keys:
-				conc_dict[k] = []
-		[conc_dict[k].append(v) for k, v in zip(keys,vals)]
-		f.close()
-	except:
-			print "Error parsing " + file
+	# try:
+
+	f =open(tabfiles_path + file)
+	info = f.readlines()
+	conc_dict_samples[tumor_files[file]] = \
+		[float(i.split()[-1]) for i in info]
+	keys = [i.split('\t')[0] for i in info]
+	vals = [float(i.split('\t')[-1]) for i in info]
+	# import pdb; pdb.set_trace()
+	if not conc_dict:
+		for k in keys:
+			conc_dict[k] = []
+	[conc_dict[k].append(v) for k, v in zip(keys,vals)]
+	f.close()
+	# except:
+	# 		print "Error parsing " + file
 
 # analyse simulated_vector_file.txt and create state : conc dict
 states_dict = {}
@@ -67,7 +71,7 @@ rel_tol = Odict()
 tab_total_sum = sum([j for i in conc_dict_samples.values() for j in i])
 stat_total_sum = sum([j for i in states_dict.values() for j in i])  
 # import pdb; pdb.set_trace()
-print tab_total_sum, stat_total_sum
+print "Tabfiles sum: " + str(tab_total_sum) + "\tSimtools sum:" + str(stat_total_sum) + "\n"
 print "TOTAL SUM ABSOLUTE TOLERANCE: {0:.5f}\tRELATIVE TOLERANCE: {1:.5f}".\
 		format(abs(tab_total_sum-stat_total_sum),
 			   abs(1-tab_total_sum/stat_total_sum))

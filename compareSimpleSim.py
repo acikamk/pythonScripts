@@ -5,6 +5,7 @@ from os import system
 import sys
 import math
 import random
+import time
 import collections 
 from collections import OrderedDict as Odict
 """
@@ -24,14 +25,24 @@ size_K = number of parameters in the model
 
 """
 
-ccompiled = "/home/H0001-1/a.kovachev/Documents/MATLAB/AMICI/ERBB_Signalling/"
-sap = "/home/H0001-1/a.kovachev/Documents/MATLAB/AMICI/ERBB_Signalling/sap/"
-sim_time = 10000
+ccompiled = "/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_Mutations_Horst_Drugs_r388408/c_solver/"
+#"/home/H0001-1/a.kovachev/simtools/data/models/Model_Optimization_Mai2017/"
+
+sap = "/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_Mutations_Horst_Drugs_r388408/sap_solver/"
+sim_time = 1e9
 x =  2
 rand = True
-size_S = 1230
-size_F = 187
-size_K = 4708
+
+# /home/H0001-1/a.kovachev/simtools/data/models/Model_Optimization_Mai2017/
+# size_S = 1228
+# size_F = 168
+# size_K = 4686
+
+size_S = 9217
+size_F = 1235
+size_K = 29797
+
+
 
 sys.path.append(ccompiled)
 sys.path.append(sap)
@@ -39,9 +50,19 @@ sys.path.append(sap)
 # import sap and cython libs
 import modeltools 
 import model_solver
-mp = modeltools.ModelProcessor(maxStepNum=10000)
-sp = model_solver.SolverWrapper()
 
+mp = modeltools.ModelProcessor(abstol=1.0E-9, reltol=1.0E-5, maxStepNum=5000)
+            # bdfMaxOrder=5, stabLimDet=1):
+sp = model_solver.SolverWrapper()
+            # 'initial_step_size' : 1.0E-4,
+            # 'abs_tolerance'     : 1.0E-9,
+            # 'rel_tolerance'     : 1.0E-5,
+            # 'min_step_size'     : 1E-8,
+            # 'max_step_size'     : 1E8, !!!!!
+ # self.solver = SapOdeSolver.Solver(model_name=self.model_name)
+sp.set_ode_parameters(1.0E-4, 1.0E-9, 1.49e-8, 1E-8, 10000)
+# set_ode_parameters(h, abs_tol, rel_tol, min_step_size, max_step_size):
+# h initial step size
 
 # set model parameters
 if rand:
@@ -73,16 +94,49 @@ cctime = np.arange(0, float(sim_time)+1 , step, dtype=np.float)
 # 88.8888888888889,89.8989898989899,90.9090909090909,91.9191919191919,92.9292929292929,93.9393939393939,\
 # 94.9494949494950,95.9595959595960,96.9696969696970,97.9797979797980,98.9898989898990,100]))
 
-# set and run sap simulations 
+# # set and run sap simulations 
+start_time = time.time()
+start_ptime = time.clock()  
 sp.set_model_parameters(F, K)
-sp.set_ode_parameters(1.0E-4, 1.0E-9, 1.49e-8, 1E-8, 10000)
+sp.set_ode_parameters(1.0E-4, 1.0E-9, 1.0e-5, 1E-8, 1E8)
 sap_res = sp.simulate_with_time_series(S, cctime)
+process_time = time.clock() - start_ptime
+real_time = time.time() - start_time
+print "Process time SAP: \t\t\t {}".format(process_time)
+print "Real time SAP: \t\t\t {}".format(real_time)
 sap_last = sap_res[-1]
 
+start_time = time.time()
+start_ptime = time.clock()  
+sap_res = sp.simulate(S, sim_time)
+process_time = time.clock() - start_ptime
+real_time = time.time() - start_time
+print "Process time SAP_sim: \t\t\t {}".format(process_time)
+print "Real time SAP_sim: \t\t\t {}".format(real_time)
+sap_last = sap_res
+
 # run ccompiled simulations
+start_time = time.time()
+start_ptime = time.clock()  
 cc_results = mp.simulate_time_course(S, cctime, F, K)
+process_time = time.clock() - start_ptime
+real_time = time.time() - start_time
+print "Process time C: \t\t\t {}".format(process_time)
+print "Real time C: \t\t\t {}".format(real_time)
+
 cc_res = cc_results.timeCourse
-cc_last = cc_res[-1] 
+cc_last = cc_res[-1]
+
+start_time = time.time()
+start_ptime = time.clock()  
+cc_results=mp.simulate(S, sim_time, F, K)
+process_time = time.clock() - start_ptime
+real_time = time.time() - start_time
+print "Process time C_sim: \t\t\t {}".format(process_time)
+print "Real time C_sim: \t\t\t {}".format(real_time)
+
+cc_last = cc_results.timeCourse[-1]
+cc_last = cc_results.finalState
 
 # calculate abs and rel tolerances
 # total difference

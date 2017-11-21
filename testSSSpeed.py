@@ -79,8 +79,8 @@ def main():
     sys.path.append(c_model)
     import modeltools
 
-    mp = modeltools.ModelProcessor(maxStepNum=100000)
-    sim_time = 1000
+    mp = modeltools.ModelProcessor(maxStepNum=5000)
+    sim_time = 1e9
     step = sim_time/100
     cctime = numpy.arange(0, float(sim_time)+1 , step, dtype=numpy.float)  
 

@@ -8,6 +8,7 @@ import collections
 from collections import OrderedDict as Odict
 import subprocess
 import shutil
+import pdb
 
 """
 Script that runs forward simulations for a given number of random vectors or 
@@ -29,13 +30,15 @@ simlated_vector files stored in the res_dir given in the tmp.config or simtools
 
 """
 
-model_path = "/project/V0001-1/modcell/users/a.kovachev/HORST_July2016_Drugs_r377479/OncoTrack_sim_23_12_16/"
+model_path = "/project/V0001-1/modcell/users/a.kovachev/Model_Optimization_Mai2017/Model_Mai2017_sim_eval_fabi_final_param280717/"
 simtools_dir = "/home/H0001-1/a.kovachev/simtools/"
 config_path = "/home/H0001-1/a.kovachev/simtools/data/results/config_files/"
-tmp_progress_trace_dir = "/project/V0001-1/modcell/users/a.kovachev/HORST_July2016_Drugs_r377479/"
+tmp_progress_trace_dir = "/project/V0001-1/modcell/users/a.kovachev/Model_Optimization_Mai2017/"
 numb_vect = 20
 opti_flag = False
 perc = 30
+# n_param = 17875
+# n_kCD = 16
 
 def  test_param_sensitivity(model_path, numb_vect, opti_flag, perc):
 
@@ -48,47 +51,51 @@ def  test_param_sensitivity(model_path, numb_vect, opti_flag, perc):
 	total_results = Odict()
 
 	tmp1, tmp2, ids_vector, opti_vector = parse_simulation_file(sim_vect_file)
-
+	n_param = len([i for i in ids_vector if "{" in i])
+	n_kCD = len([i for i in ids_vector if i.startswith("k")])
+	
 	if opti_flag: 
 		i_size = len(opti_vector)
 	else:
 		i_size = numb_vect
-
+	tmp_opti = []
 	for i in range(i_size):
 		if opti_flag:
 			 tmp_opti_vect = opti_vector
 			 tmp_opti_vect[i] = tmp_opti_vect[i] + tmp_opti_vect[i] * perc/100 #  change + to - for decrease
 		else:
-			tmp_opti_vect = np.random.uniform(-1,1,17875) 
-
-		tmp_prog_file = tmp_progress_trace_file(tmp_progress_trace_dir, 
-												ids_vector, 
-												tmp_opti_vect)
+			tmp_opti_vect = np.concatenate((np.random.rand(n_kCD), np.random.uniform(-1,1,n_param))) 
+			tmp_opti.append(tmp_opti_vect)
+			
+	# pdb.set_trace()
+	tmp_prog_file = tmp_progress_trace_file(tmp_progress_trace_dir, 
+											ids_vector, 
+											tmp_opti)
 		# set the random progres trace file in the config file
-		config_file = modify_config_file(config_path, 
-										"VectorsFile",
-										 tmp_prog_file)
+	# config_file = modify_config_file(config_path, 
+									"VectorsFile",
+									 tmp_prog_file)
 
-		simtools_exe = simtools_dir + "simcontrol.sh"
-		subprocess.call([simtools_exe, 'startjob', config_file])
+	simtools_exe = simtools_dir + "simcontrol.sh"
+	subprocess.call([simtools_exe, 'startjob', config_file])
 
-		print "Finished simulation for id: {} at {}".\
-			format(i, datetime.datetime.strftime(datetime.datetime.now(), "%H:%M %d-%m-%Y"))
-		res_dir, res_file = get_config_data(config_file)
+	print "Finished simulation for id: {} at {}".\
+		format(i, datetime.datetime.strftime(datetime.datetime.now(), "%H:%M %d-%m-%Y"))
+	res_dir, res_file = get_config_data(config_file)
 
-		constr_dict, states_dict, tmp1, tmp2 = parse_simulation_file(res_file)
-		total_results[i] = Odict()
-		total_results[i]["constraints"] = constr_dict
-		total_results[i]["states"] = states_dict
-		tmp_sim_file = tmp_progress_trace_dir + "rand_vectors_file_4id_" + str(i) + ".txt"
+	constr_dict, states_dict, tmp1, tmp2 = parse_simulation_file(res_file)
+	total_results[i] = Odict()
+	total_results[i]["constraints"] = constr_dict
+	total_results[i]["states"] = states_dict
+	tmp_sim_file = tmp_progress_trace_dir + "rand_vectors_file_4id_" + str(i) + ".txt"
 
-		shutil.move(res_file, tmp_sim_file)
+	shutil.move(res_file, tmp_sim_file)
 		
-		shutil.rmtree(res_dir)
-		# set the config file bacj to "VectorsFile"
-		config_file = modify_config_file(config_path, 
-										tmp_prog_file, 
-										"VectorsFile")					
+		# shutil.rmtree(res_dir)
+		# # set the config file back to "VectorsFile"
+		# config_file = modify_config_file(config_path, 
+		# 								tmp_prog_file, 
+		# 								"VectorsFile")					
 	return 
 
 def parse_simulation_file(simulated_vectors_file):
@@ -129,7 +136,8 @@ def tmp_progress_trace_file(tmp_progress_trace_dir, ids_vector, opti_vector):
 	tmp_prog = open(tmp_prog_file, "w")
 
 	tmp_prog.write("VARIABLE PAR IDS:\t" + str(ids_vector) + "\n")
-	tmp_prog.write("VECTOR:\t" + str(list(opti_vector)) + "\n")
+	for vector in opti_vector:
+		tmp_prog.write("VECTOR:\t" + str(list(vector)) + "\n")
 
 	tmp_prog.close()
 

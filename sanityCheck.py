@@ -53,16 +53,17 @@ def main(arg1, arg2):
 		f.close()
 		eval(identifiers_code)
 
-		diff_species = locals()['diff_var_ids']
-		fixed_species = locals()['fixed_var_ids']
+		diff_sp_dict = locals()['diff_var_ids']
+		fixed_sp_dict = locals()['fixed_var_ids']
 
-		diff_sp_dict = {j[1]: k for k,j in diff_species.iteritems()}
-		fixed_sp_dict = {j[1]: k for k,j in fixed_species.iteritems()}
+		# diff_sp_dict = {j[1]: k for k,j in diff_species.iteritems()}
+		# fixed_sp_dict = {j[1]: k for k,j in fixed_species.iteritems()}
 
-		sbml_dict_diff =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in diff_species.iteritems()}   
-		sbml_dict_fixed =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in fixed_species.iteritems()} 
+		sbml_dict_diff =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in diff_sp_dict.iteritems()}   
+		sbml_dict_fixed =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in fixed_sp_dict.iteritems()} 
 		    
 		pars_sp_dict = locals()['par_ids']
+		# import pdb; pdb.set_trace()
 	except:
 		print  bcolors.FAIL \
 		 + "The identifiers.py file has incompatile structure!" \
@@ -97,7 +98,7 @@ def main(arg1, arg2):
 		+ "The SBML file was not processed correctly!"\
 		+ bcolors.ENDC
 		return
-
+	# import pdb; pdb.set_trace()
 	# preform check
 	if len(diff_sb_dict.keys())!=len(diff_sp_dict.keys()):
 		if len(fixed_sb_dict.keys())!=len(fixed_sp_dict.keys()):
