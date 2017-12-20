@@ -26,9 +26,13 @@ size_K = number of parameters in the model
 """
 
 ccompiled = "/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_Mutations_Horst_Drugs_r388408/c_solver/"
+#"/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_r378547"
+#
 #"/home/H0001-1/a.kovachev/simtools/data/models/Model_Optimization_Mai2017/"
 
-sap = "/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_Mutations_Horst_Drugs_r388408/sap_solver/"
+sap =  "/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_Mutations_Horst_Drugs_r388408/sap_solver/"
+"/home/H0001-1/a.kovachev/pybios/scripts/models/CancerSignalling_Merged_2017v1_r378547_sap"
+#
 sim_time = 1e9
 x =  2
 rand = True
@@ -108,12 +112,12 @@ sap_last = sap_res[-1]
 
 start_time = time.time()
 start_ptime = time.clock()  
-sap_res = sp.simulate(S, sim_time)
+sap_res1 = sp.simulate(S, sim_time)
 process_time = time.clock() - start_ptime
 real_time = time.time() - start_time
 print "Process time SAP_sim: \t\t\t {}".format(process_time)
 print "Real time SAP_sim: \t\t\t {}".format(real_time)
-sap_last = sap_res
+sap_last = sap_res1
 
 # run ccompiled simulations
 start_time = time.time()
@@ -135,7 +139,7 @@ real_time = time.time() - start_time
 print "Process time C_sim: \t\t\t {}".format(process_time)
 print "Real time C_sim: \t\t\t {}".format(real_time)
 
-cc_last = cc_results.timeCourse[-1]
+#cc_last = cc_results.timeCourse[-1]
 cc_last = cc_results.finalState
 
 # calculate abs and rel tolerances

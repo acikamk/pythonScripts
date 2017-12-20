@@ -259,7 +259,7 @@ def analyseDataReadOut(read_out, ko_conc, th):
 def analyseDataSA(all_conc, ko_conc, th):
 	significantSA = []
 	print 'INFO Analyse sensitivity data.'
-	all_ids_rev = {v[0]: v[1] for k, v in all_ids.iteritems()}
+	diff_var_rev = {v[0]: v[1] for k, v in diff_var_ids.iteritems()}
 	for k,v in ko_conc.iteritems():
 			control_n = k.split('_')[0]
 			control_v = all_conc[control_n]
@@ -275,7 +275,7 @@ def analyseDataSA(all_conc, ko_conc, th):
 						{'Sample': control_n,
 						'Knockout of': k.split('_')[1], 
 						'ko_value': k.split('_')[2].replace('KO',''),
-          				'species-affected': all_ids_rev[i], 
+          				'species-affected': diff_var_rev[i], 
           				'control_val': control_v[i], 
           				'experiment_val': v[i], 
           				'fold_change': j})

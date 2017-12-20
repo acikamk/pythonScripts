@@ -1,6 +1,6 @@
 import sys
-import pandas
-import numpy
+import pandas as pd
+import numpy  as np
 import argparse
 from argparse import RawTextHelpFormatter
 import collections 
@@ -8,6 +8,7 @@ from collections import OrderedDict as Odict
 sys.path.append("/home/H0001-1/a.kovachev/simtools/src")
 import runopt
 from modelstuff import PyBiosModel
+import h5py
 import time
 import matplotlib.pyplot as plt 
 import os
@@ -60,10 +61,10 @@ def main():
 	                    help='Folder where the identifiers.py and exp_table.csv are present')
 	parser.add_argument('sufix', type=str,
 	                    help='Suffix name to add to the output files')
-	parser.add_argument('--fold', type=bool, default=False,
-	                    help='(optional) - whether the cost function to use fold changes')
-	parser.add_argument('--cost_func', type=str, default=None,
-	                    help='(optional) - cost function to be used: ex. "MAML1Complexes	kCD0*[48]+kCD1*[70]+kCD2*[72]+kCD3*[74]+0.00001"')
+	parser.add_argument('--fold', action='store_true',
+	                    help='(optional) - if prsent than store fold changes')
+	parser.add_argument('--cost_func', type=existingFilePath, default=None,
+	                    help='(optional) - file with cost functions observbles to be used')
 	parser.set_defaults(func=process_data)
 	args = parser.parse_args()
 	args.func(args)
@@ -79,10 +80,38 @@ def process_data(args):
 	inputs_folder = str(args.inputs_folder)
 	model_id = inputs_folder[inputs_folder[:-1].rindex("/")+1:-1]
 	identifiers_file = existingFilePath(args.inputs_folder + "/identifiers.py")
-	exp_table_file = existingFilePath(args.inputs_folder + "/exp_table_short.csv")
+	exp_table_file = existingFilePath(args.inputs_folder + "/exp_table_sim_DMSO.csv")
 	cost_func_file =  existingFilePath(args.inputs_folder + "/cost_func_empty.txt")
-	if args.cost_func:
-		assert (len(str(args.cost_func).split())==2), "Incorect cost function format!"
+	mapping_ids_file = existingFilePath(args.inputs_folder +  "/Speedy_v3_r403445.ID_mapping_parameters.txt")
+
+	file_h5_opti = "/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/model-Speedy_v3_r403445_v2-srv23ib.712174.0-multistarts.h5"
+	file_h5_names = "/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/Speedy_v3_r403445_v1_2.h5"
+
+	hdf5_opti = h5py.File(file_h5_opti, 'r')
+	
+	cost = np.array(hdf5_opti["/finalCost"][0])
+	cost[cost == 0.0] = np. inf
+	index = np.nanargmin(cost)
+
+	opti_vectors = hdf5_opti["/finalParameters"]
+	best_opti_vect = np.array(opti_vectors[:,index])
+	
+	
+
+	hdf5_names = h5py.File(file_h5_names, 'r')
+	opti_names = np.array(hdf5_names["/parameters/parameterNames"])
+	 
+	sbml2pybios_df = pd.read_table(mapping_ids_file, sep='\t', index_col=1)
+	sbml2pybios = sbml2pybios_df.to_dict()['ExperimentTable_id']
+
+	hdf52pybios = {i:sbml2pybios[j] for i in opti_names for j in sbml2pybios.keys() if i[:i.rindex("_")]==j+"_reaction"}
+
+	dict_opti = dict(zip(opti_names, best_opti_vect))	
+
+	pybios2opti = {v1:v2 for k1,v1 in hdf52pybios.iteritems() for k2,v2 in dict_opti.iteritems() if k1==k2}
+
+	# if args.cost_func:
+	# 	assert (len(str(args.cost_func).split())==2), "Incorect cost function format!"
 
 	# except:	
 	# 	print bcolors.WARNING \
@@ -90,7 +119,7 @@ def process_data(args):
 	# 	 + bcolors.ENDC
 	# 	return
 	sys.path.append(args.inputs_folder)
-	# 
+
 	try:
 		f = open(identifiers_file)
 		identifiers_code = compile(f.read(), identifiers_file, 'exec')
@@ -101,38 +130,38 @@ def process_data(args):
 		if not args.cost_func:
 			pyid = {j[0]: k for k, j in diff_species.iteritems()}
 		else:
-			cost_function = args.cost_func.split()[1]
-			if 'kCD' in cost_function:
-				cost_function_noK = re.sub('kCD(\d+)\*', '', cost_function)	
-			else:
-				cost_function_noK = re.sub('k(\d+)\*', '', cost_function)			
-			pybios_ids = re.findall(r"\[\d+\]", cost_function_noK)
-			pyid =  {k: j[0] for k, j in diff_species.iteritems() if k in pybios_ids}
+			cost_ids = parse_cost_file_formulas(args.cost_func, diff_species)
 	except:	
 		print bcolors.WARNING \
 		 + "Problems with parsing identifiers.py file!"\
 		 + bcolors.ENDC
 		return
 
-	exp_table_full = pandas.read_table(exp_table_file, sep='\t', index_col=0)
-
+	exp_table_full = pd.read_table(exp_table_file, sep='\t', index_col=0)
 	conc = Odict()
+
 	# model stuff
 	bounds = (-1,1)
 	model = PyBiosModel(model_id, identifiers_file, exp_table_full, cost_func_file)
-	varKParVect = numpy.power(10, bounds[0] \
-	  + numpy.random.rand(len(model.variable_indexK_arr)) 
-	  *(bounds[1] - bounds[0]) ) 
-	fixed_Ki = numpy.setdiff1d(xrange(model.dimK), 
+	var_par_ids_list = model.get_var_par_ids_list(with_kcd=False)
+
+	if not file_h5_opti: 
+		varKParVect = np.power(10, bounds[0] \
+		  + np.random.rand(len(model.variable_indexK_arr)) 
+		  *(bounds[1] - bounds[0]) ) 
+	else:
+		varKParVect = np.power(10, [pybios2opti[i] for i in var_par_ids_list])
+
+	fixed_Ki = np.setdiff1d(xrange(model.dimK), 
 			model.variable_indexK_arr)
-	K = numpy.zeros(model.dimK)
-	# import pdb; pdb.set_trace()
+	K = np.zeros(model.dimK)
+	# pdb.set_trace()
 	if len(model.variable_indexK_arr) > 0:
 		K[model.variable_indexK_arr] = varKParVect
 
-	var_par_ids_list = model.get_var_par_ids_list(with_kcd=False)
+	
 	par_ids_list = [pId for pId, par in model.parameters.items() if par.arrayId == 'K']
-	f = open("./data/init_vector_" + args.sufix +".txt", "w")
+	f = open("/project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_" + args.sufix +".txt", "w")
 	f.write("PAR_IDS={}\n\n".format(par_ids_list))
 	f.write("VAR_PAR_IDX={}\n\n".format(model.variable_indexK_arr.tolist()))
 	f.write("VAR_PAR_IDS={}\n\n".format(var_par_ids_list))
@@ -152,64 +181,97 @@ def process_data(args):
 		conc[sampleId] = run_simulation(sample, sampleId, K, f)
 	f.close()
 	weight = 1
-	f = open("./data/cost_func_"+ args.sufix + ".txt", "w")
+	f1 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_abs_"+ args.sufix + ".txt", "w")
+	f2 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_fold_"+ args.sufix + ".txt", "w")
 	# try: 
 	print bcolors.OKGREEN \
  	 + "Saving to file " + f.name\
  	 + bcolors.ENDC
  	# import pdb; pdb.set_trace()
 	if not args.cost_func:
-		create_cost_file_species(pyid, conc, f, weight, args)	
+		create_cost_file_species(pyid, conc, f1, f2, weight, args)	
 	else:
-		create_cost_file_formula(pyid, conc, f, weight, args, cost_function_noK)
+		create_cost_file_formula(cost_ids, conc, f1, f2, weight, args)
 		# import pdb; pdb.set_trace()
 	# except:
 	# 	print bcolors.FAIL \
 	#  	 + "Problem with saving to file " + f.name\
 	#  	 + bcolors.ENDC
-	f.close()
+	f1.close()
+	f2.close()
+	hdf5_names.close()
+	hdf5_opti.close()
 	return
 
-def create_cost_file_formula(pyid, conc_dict, f, weight, args, cost_function_noK):
+def parse_cost_file_formulas(file, diff_species):
+	# import pdb; pdb.set_trace()
+	cost_ids = Odict()
+	with open(file) as f:
+		for line in f:
+			if line.startswith('ID:'):
+				cost_function = line.split('\t')[1].strip()
+				cost_id = line.split('\t')[0].split(':')[1].strip()
+				if 'kCD' in cost_function:
+					cost_function_noK = re.sub('kCD(\d+)\*', '', cost_function)	
+				else:
+					cost_function_noK = re.sub('k(\d+)\*', '', cost_function)			
+				pybios_ids = re.findall(r"\[\d+\]", cost_function_noK)
+				# import pdb; pdb.set_trace()
+				cost_ids[(cost_id, cost_function, cost_function_noK)] = {k: j[0] for k, j in diff_species.iteritems() if k in pybios_ids}
+	return cost_ids
+
+def create_cost_file_formula(cost_ids, conc_dict, f_abs, f_fold, weight, args):
 	
-	f.write("ID:{}\t{}\n".format(args.cost_func.split()[0], args.cost_func.split()[1]))
-	for sample in conc_dict.keys():
-		try:
-			# import pdb; pdb.set_trace()
-			if not args.fold:
-				value = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][pyid[y]])), pyid.keys(), cost_function_noK))
+	for key, value in cost_ids.iteritems():
+		(cost_id, cost_function, cost_function_noK) = key
+
+		f_abs.write("ID:{}\t{}\n".format(cost_id, cost_function))
+		f_fold.write("ID:{}\t{}\n".format(cost_id, cost_function))
+		for sample in conc_dict.keys():
+			try:
+				# if not args.fold:
+				value_abs = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
 				# print value
 				# import pdb; pdb.set_trace()
-				f.write("{}\t{}\t{}\n".format(sample,value,weight))
+				f_abs.write("{}\t{}\t{}\n".format(sample,value_abs,weight))
 				# import pdb; pdb.set_trace()
-			elif "_" in sample:
-				control = sample.split("_")[0]
-			
-				value_t = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][pyid[y]])), pyid.keys(), cost_function_noK))
-				value_c = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[control][pyid[y]])), pyid.keys(), cost_function_noK))
-				value =value_t/value_c
-				f.write("{}/{}\t{}\t{}\n".format(sample,control,value,weight))
-		except:
-			print ("Problem with sample {}".format(sample))
+				if "_" in sample:
+					control = sample.split("_")[0]
+					value_t = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
+					value_c = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[control][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
+					if value_t == 0.0 and not value_c == 0.0:
+						value_fold = 0.0
+					elif value_t == value_c == 0.0:
+						value_fold = 1.0
+					elif value_c == 0.0 and not value_t == 0.0:
+						print ("Division by 0.0 with (cost, sample) = ({},{})".format(cost_id, sample))
+						continue
+					else:
+						value_fold = value_t/value_c
+					f_fold.write("{}/{}\t{}\t{}\n".format(sample,control,value_fold,weight))
+			except:
+				pdb.set_trace()
+				print ("Problem with (cost, sample, value_t, value_c) =({},{},{},{})".format(cost_id, sample, value_t, value_c))
 
 	return
 
-def create_cost_file_species(pyid, conc_dict, f, weight, args):
+def create_cost_file_species(pyid, conc_dict, f_abs, f_fold, weight, args):
 
 	for key, val in pyid.iteritems():
-		f.write("ID:cost_fct_{}\tkCD{}*{}+0.00001\n".format(key,key,val))
+		f_abs.write("ID:cost_fct_{}\tkCD{}*{}+0.00001\n".format(key,key,val))
+		f_fold.write("ID:cost_fct_{}\tkCD{}*{}+0.00001\n".format(key,key,val))
 		for sample in conc_dict.keys():
 			try:
 				# import pdb; pdb.set_trace()
 				if not args.fold:
-					f.write("{}\t{}\t{}\n".format(sample,conc_dict[sample][key],weight))
+					f_abs.write("{}\t{}\t{}\n".format(sample,conc_dict[sample][key],weight))
 				elif "_" in sample:
 					control = sample.split("_")[0]
 					if conc_dict[control][key] == 0.0:
 						conc_dict[control][key] = 1e9
 					else:	
 						value = conc_dict[sample][key]/conc_dict[control][key]
-					f.write("{}/{}\t{}\t{}\n".format(sample,control,value,weight))
+					f_fold.write("{}/{}\t{}\t{}\n".format(sample,control,value,weight))
 			except:
 				print ("Problem with sample {}".format(sample))
 

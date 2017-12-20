@@ -69,21 +69,22 @@ def read_data(model):
 	return exp_df, cost_data, outname
 
 def parseOptiFile(opti_file):
-	ids_vector = Odict()
 	opti_vector = Odict()
-	kcds_dict = Odict()
+	i=0
 	with open(opti_file) as file:
 		for l in file:
 			if 'VARIABLE PAR IDS:' in l:
 				ids_vector = eval(l[l.index('['):])
 			elif 'FITNESS:' in l:
-				fitness = eval(l[l.index(':')+1:])
+				fitness[i] = eval(l[l.index(':')+1:])
 			elif 'VECTOR:' in l:
-				opti_vector = eval(l[l.index(':')+1:])		
+				opti_vector[i] = eval(l[l.index(':')+1:])
+				i+=1		
 	for var in ids_vector:
 		if var.startswith('k'):
-			kcds_dict[var] = opti_vector[ids_vector.index(var)]			
-	return ids_vector, opti_vector, kcds_dict
+			kcds_dict[var] = opti_vector[ids_vector.index(var)]
+	
+	return ids_vector, opti_vector, kcds_dict, fitness
 
 def modifyExpTable(exp_df,  args, outname):
 
@@ -172,7 +173,7 @@ def modifyCostFunct(samples, cost_data, args, outname):
 
 	return cost_file_name
 
-def setUpK(args, model):
+def setUpK(args, model, ind_vect):
 	# class: LogNormDistribution
 	# description: default parameter sampling distribution
 	# priority: 10
@@ -186,30 +187,33 @@ def setUpK(args, model):
 		if mouse:
 			bounds = (-1,1)
 			varKParVect =  np.power(10, bounds[0] + \
-				np.random.rand(len(model.variable_indexK_arr) + \
-				model.dimKCD)*(bounds[1] - bounds[0]) ) 
+				np.random.rand(len(model.variable_indexK_arr) ))
+				# + model.dimKCD)*(bounds[1] - bounds[0]) ) 
 		else:
 			varKParVect =  np.random.lognormal(mean=2.5, sigma=0.5,
-		 		size=len(model.variable_indexK_arr) + model.dimKCD)
+		 		size=len(model.variable_indexK_arr) )
+			# + model.dimKCD
 		# pdb.set_trace()
 	else:
-		ids_vector, varKParVect, kcds_dict = \
+		ids_vector, opti_vector, kcds_dict, fitness = \
 							parseOptiFile(args.opti_vect)
-		varKParVect = np.power(10, varKParVect)
+
+		varKParVect = np.power(10, opti_vector[ind_vect])
 		varIds = sorted([par_ids[i][0] for i in ids_vector 
 				if not i.startswith('k')])
-		if varIds  != model.variable_indexK_arr.tolist():
+		# pdb.set_trace()
+		if varIds != model.variable_indexK_arr.tolist():
 			print 'Problem with optmized vector!'
 			pdb.set_trace()
 
 
 	K = np.zeros(model.dimK)
 	if len(model.variable_indexK_arr) > 0:
-		K[model.variable_indexK_arr] = varKParVect
+		K[model.variable_indexK_arr] = varKParVect[len(kcds_dict):]
 
 	return K, kcds_dict
 
-def runKOexperiments(exp_df_KO_f, cost_file_KO_f, args):
+def runKOexperiments(exp_df_KO_f, cost_file_KO_f, args, ind_vect=-1):
 
     print 'INFO Running knockout simulations.'
     control_conc = Odict()
@@ -225,7 +229,7 @@ def runKOexperiments(exp_df_KO_f, cost_file_KO_f, args):
     		exp_df_KO_f, 
     		cost_file_KO_f)
 
-    K, kcds_dict = setUpK(args, model)
+    K, kcds_dict = setUpK(args, model, ind_vect)
     fixed_Ki = np.setdiff1d(xrange(model.dimK), model.variable_indexK_arr)
     cost_sample_ids = set(itertools.chain(*model.conditionDict.keys()))
 
@@ -233,7 +237,9 @@ def runKOexperiments(exp_df_KO_f, cost_file_KO_f, args):
         sample = model.samples[sampleId]
         if len(fixed_Ki)  > 0:
             K[fixed_Ki] = sample.K[fixed_Ki]   
+            # pdb.set_trace()
             res = mp.simulate(sample.S0, 1e8, sample.F, K)
+            
             if not res.success:
                print ('Simulation failed: flag= %s, sample= %s'
                   %( res.exitcode, sampleId))
@@ -249,6 +255,7 @@ def runKOexperiments(exp_df_KO_f, cost_file_KO_f, args):
 def analyseDataReadOut(read_out, ko_conc, th):
 	significantRO = []
 	print 'INFO Analyse read out data.'
+
 	for k in ko_conc.keys():
 			ko_n = k
 			ko_v = read_out[k]
@@ -276,7 +283,7 @@ def analyseDataReadOut(read_out, ko_conc, th):
 def analyseDataSA(all_conc, ko_conc, th):
 	significantSA = []
 	print 'INFO Analyse sensitivity data.'
-	all_ids_rev = {v[0]: v[1] for k, v in all_ids.iteritems()}
+	diff_var_ids_rev = {v[0]: v[1] for k, v in diff_var_ids.iteritems()}
 	for k,v in ko_conc.iteritems():
 			control_n = k.split('_')[0]
 			control_v = all_conc[control_n]
@@ -292,7 +299,7 @@ def analyseDataSA(all_conc, ko_conc, th):
 						{'Sample': control_n,
 						'Knockout of': k.split('_')[1], 
 						'ko_value': k.split('_')[2].replace('KO',''),
-          				'species-affected': all_ids_rev[i], 
+          				'species-affected': diff_var_ids_rev[i], 
           				'control_val': control_v[i], 
           				'experiment_val': v[i], 
           				'fold_change': j})
@@ -329,6 +336,7 @@ def getReadOutsVals(all_conc, cost_data, kcds_dict):
 def runWorkflow(exp_df_KO_f, cost_func_KO_f, args):
 	control_conc, ko_conc, all_conc, kcds_dict	 = \
 			runKOexperiments(exp_df_KO_f, cost_func_KO_f, args)
+	pdb.set_trace()
 	if args.repeat > 1:
 		control_conc_df = pd.DataFrame.from_dict(control_conc)
 		ko_conc_df = pd.DataFrame.from_dict(ko_conc)
@@ -387,6 +395,18 @@ arg_parser.add_argument('--opti-vect',
 	        default = None,
 	        help = 'Path to optimized vector file. If none'\
 	        'random values for parameters will be used.' )
+arg_parser.add_argument('--all',
+			nargs='?',
+	        action = 'store_true',
+	        default = False,
+	        help = 'Whether to evaluate all vectors from'\
+	        'the progress trace file.' )
+arg_parser.add_argument('--avg',
+			nargs='?',
+	        action = 'store_true',
+	        default = False,
+	        help = 'Whether to calculate average from'\
+	        'all vectors or store separate results.' )
 arg_parser.add_argument('--threshold',
 			nargs='?',
 	        type = float,
@@ -422,42 +442,54 @@ if args.perc:
     outname+='perc_'
 if args.opti_vect:
     outname+='opti_vect_'
+    if args.all:
+    	outname+='all_'
+    else 
+    	outname+='only_last'
+    if args.avg:
+    	outname+='avg'
 else:
     outname+='random_'
 
 exp_df_KO, exp_df_KO_f = modifyExpTable(exp_df, args, outname)
 cost_func_KO_f = modifyCostFunct(exp_df_KO.columns.tolist(), cost_data, args, outname)
 
-all_conc, control_conc, ko_conc, kcds_dict = runWorkflow(exp_df_KO_f, cost_func_KO_f, args)
+iterate = [0]
+if args.opti_vect:
+	ids_vector, opti_vectors, kcds_dict, fitness = parseOptiFile(args.opti_vect)
+	if args.all:
+		iterate = range(0,len(opti_vectors))
+for it in iterate:
+	all_conc, control_conc, ko_conc, kcds_dict = runWorkflow(exp_df_KO_f, cost_func_KO_f, args )
 
-read_out = getReadOutsVals(all_conc, cost_data, kcds_dict)
-significantRO = analyseDataReadOut(read_out, ko_conc, args.threshold)
-significantSA = analyseDataSA(all_conc, ko_conc, args.threshold)
+	read_out = getReadOutsVals(all_conc, cost_data, kcds_dict)
+	significantRO = analyseDataReadOut(read_out, ko_conc, args.threshold)
+	significantSA = analyseDataSA(all_conc, ko_conc, args.threshold)
+	pdb.set_trace()
+	if args.rpkms:
+		ac_dict = dict(action_ids)
+		params = set(significantRO['Knockout of'])
+		desc = {k:ac_dict[k.split('|')[0][1:]].split('[')[0] for k in list(params)}
+		significantRO = significantRO.replace(desc)
+		significantSA = significantSA.replace(desc)
 
-if args.rpkms:
-	ac_dict = dict(action_ids)
-	params = set(significantRO['Knockout of'])
-	desc = {k:ac_dict[k.split('|')[0][1:]].split('[')[0] for k in list(params)}
-	significantRO = significantRO.replace(desc)
-	significantSA = significantSA.replace(desc)
+	print 'INFO Saving data to output files with affix:' + outname
+	for c in set(significantSA['ko_value'].tolist()):
+		tmp = significantSA[significantSA['ko_value']==c]
+		tmp.to_csv(args.dir + outname + c + '_SA.csv', sep = '\t')
+	outname+=('_').join([str(v) for v in args.vals])+'_'
 
-print 'INFO Saving data to output files with affix:' + outname
-for c in set(significantSA['ko_value'].tolist()):
-	tmp = significantSA[significantSA['ko_value']==c]
-	tmp.to_csv(args.dir + outname + c + '_SA.csv', sep = '\t')
-outname+=('_').join([str(v) for v in args.vals])+'_'
-
-# significantSA.to_csv(args.dir + outname + 'SA.csv', sep = '\t')
-for c in set(significantRO['ko_value'].tolist()):
-	tmp = significantRO[significantRO['ko_value']==c]
-	tmp.to_csv(args.dir + outname + c + '_RO.csv', sep = '\t')
-outname+=('_').join([str(v) for v in args.vals])+'_'
+	# significantSA.to_csv(args.dir + outname + 'SA.csv', sep = '\t')
+	for c in set(significantRO['ko_value'].tolist()):
+		tmp = significantRO[significantRO['ko_value']==c]
+		tmp.to_csv(args.dir + outname + c + '_RO.csv', sep = '\t')
+	outname+=('_').join([str(v) for v in args.vals])+'_'
 
 # temp = df[['Sample', 'Knockout of','fold_change']]
 
 # import matplotlib.pyplot as plt
 # dict = temp.to_dict()
-#newi = set(dict['Sample'].values())
+# newi = set(dict['Sample'].values())
 # newc = set(dict['Knockout of'].values())
 
 # z={k:{v: math.log10(temp[(temp['Sample']==k) & (temp['Knockout of']==v)]['fold_change'].values[0]) if temp[(temp['Sample']==k) & (temp['Knockout of']==v)]['fold_change'].values else 0 for v in newc} for k in newi}
@@ -465,4 +497,5 @@ outname+=('_').join([str(v) for v in args.vals])+'_'
 # ax.set_yticklabels(ax.get_yticklabels(),rotation=30) 
 # ax=sns.heatmap(df_z)
 # plt.show()
+
 

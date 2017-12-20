@@ -45,14 +45,14 @@ def main(input_file, id_file_org, mapping_file):
 	par_ids = org['par_ids']
 
 	map_df = pd.read_csv(mapping_file, sep = '\t', index_col = 1)
-	map_dict = x=map_df['ExperimentTable_id'].to_dict()
+	map_dict =map_df['ExperimentTable_id'].to_dict()
 
 	# optimized parameters data 
 	k_ids = [k for k in sbml_ids if k.startswith('k')]
 	pdb.set_trace()
 	pybios_ids = [map_dict[i.split('_reaction')[0]] for i in sbml_ids if not i.startswith('k') ]
 
-	index = pybios_ids + k_ids
+	index = k_ids + pybios_ids
 
 	columns = [i for i in xrange(len(vectors))]
 	matrix = np.empty((len(index),len(columns)))
