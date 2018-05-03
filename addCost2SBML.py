@@ -1,16 +1,21 @@
-import collections 
-from collections import OrderedDict as Odict
-from collections import deque 
-import os
-import sys
-import argparse
-from argparse import RawTextHelpFormatter
-from os import listdir
-from os.path import isfile, join
 from libsbml import *
 import re
 import pdb
 
+'''
+Script that adds observables definitions to the sbml model
+NECESSARY for CanPathPro!
+
+Input:
+	-identifiers_file: pybios identifiers.py file
+	-sbml_file: sbml model
+	-cost_function_file: cost_func.txt file
+Example call: /home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/identifiers.py  /home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/Speedy_v3_r403445_v2.sbml 
+	/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/cost_func.txt
+
+Output:
+	- sbml file with same name as the input but with suffix '_wCostwSP'
+'''
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -59,12 +64,15 @@ def main(identifiers_file, sbml_file, cost_function_file):
 		fixed_sp_dict = locals()['fixed_var_ids']
 
 		sbml_dict_diff =  {k:"SP_"+ str(j[3]) + "_" + \
-		compartments[j[1].split(" in ")[1]] for k,j in diff_sp_dict.iteritems()}      
+			compartments[j[1].split(" in ")[1]] \
+			for k,j in diff_sp_dict.iteritems()}      
 		
 		sbml_dict_fixed =  {k:"SP_"+ str(j[3]) + "_" + \
-		compartments[j[1].split(" in ")[1]] for k,j in fixed_sp_dict.iteritems()}  
+			compartments[j[1].split(" in ")[1]] \
+			for k,j in fixed_sp_dict.iteritems()}  
 
-		intersect_keys = [i for i in sbml_dict_fixed.keys() if i in sbml_dict_diff.keys()]
+		intersect_keys = [i for i in sbml_dict_fixed.keys() \
+			if i in sbml_dict_diff.keys()]
 		if intersect_keys:
 			print intersect_keys
 
@@ -86,11 +94,11 @@ def main(identifiers_file, sbml_file, cost_function_file):
 		model = document.getModel()
 
 		diff_sb_dict = {i.getId(): i.getName() \
-				 for i in model.getListOfSpecies() if not i.getConstant()}
+			for i in model.getListOfSpecies() if not i.getConstant()}
 		fixed_sb_dict = {i.getId(): i.getName() \
-				for i in model.getListOfSpecies() if i.getConstant()}
+			for i in model.getListOfSpecies() if i.getConstant()}
 		pars_sb_dict = {i.getId(): i.getName() \
-				for i in model.getListOfParameters()}
+			for i in model.getListOfParameters()}
 
 
 		# if not pars_sb_dict:
@@ -119,9 +127,13 @@ def main(identifiers_file, sbml_file, cost_function_file):
 			c_all_params = [c_id_sbml, c_id_sigma]
 			try:
 				if 'k' in c_formula and '[' in c_formula:
-					c_sbml = re.sub('(k\d+)\*(\[\d+\])', lambda x: 'weight_' + c_id + '_' + sbml_dict_diff[x.group(2)] + '*' + sbml_dict_diff[x.group(2)] , c_formula)
+					c_sbml = re.sub('(k\d+)\*(\[\d+\])', lambda x: \
+					 'weight_' + c_id + '_' + sbml_dict_diff[x.group(2)] + '*'\
+					 						+ sbml_dict_diff[x.group(2)] ,\
+					 											c_formula)
 				elif '[' in c_formula:
-					c_sbml = re.sub('(\[\d+\])', lambda x: sbml_dict_diff[x.group()] , c_formula)
+					c_sbml = re.sub('(\[\d+\])', lambda x: \
+						sbml_dict_diff[x.group()] , c_formula)
 			except:
 				print "Error in sub"
 				pybios_ids = re.findall('(\[\d+\])', c_formula)
@@ -129,14 +141,18 @@ def main(identifiers_file, sbml_file, cost_function_file):
 			if not ("scaling_" in c_sbml or '/' in c_sbml):
 				c_sbml = "scaling_"+ c_id + "_genotypespecific*(" + c_sbml + ")"
 			elif '/' in c_sbml:
-				c_sbml = "scaling_"+ c_id + "_genotypespecific*(" + c_sbml.split('/')[0] + ")/" +  c_sbml.split('/')[1]
+				c_sbml = "scaling_"+ c_id + "_genotypespecific*(" + c_sbml.split('/')[0] \
+															+ ")/" +  c_sbml.split('/')[1]
 			# pdb.set_trace()
 			try: 
 				sbml_math = parseL3FormulaWithModel(c_sbml, model) 
 				params = []
 				params = recParam(sbml_math)
-				params = [e for e in params if e not in diff_sb_dict.keys() + fixed_sb_dict.keys() + pars_sb_dict.keys()]	
-				c_all_params+=params
+				params = [e for e in params if e not in diff_sb_dict.keys() + \
+														fixed_sb_dict.keys() + \
+									 					pars_sb_dict.keys()]	
+				c_all_params += params
+
 			except:
 				print "Error in recParam or Model"
 				pdb.set_trace()
@@ -159,7 +175,7 @@ def main(identifiers_file, sbml_file, cost_function_file):
 			document.checkL2v4Compatibility()
 		except:	
 			pdb.set_trace()
-		# document.checkConsistency()
+		# document.checkConsistency() # takes tooo long
 
 		writeSBMLToFile(document, sbml_file[:sbml_file.rindex('.')] + '_wCostwSP.sbml') 
 	except:
@@ -171,4 +187,15 @@ def main(identifiers_file, sbml_file, cost_function_file):
 	return
 
 if __name__ == "__main__":
-	main(sys.argv[1], sys.argv[2], sys.argv[3])
+	try:
+		main(sys.argv[1], sys.argv[2], sys.argv[3])
+	except:
+		print 'Script that adds observables definitions to the sbml model\n\
+				NECESSARY for CanPathPro!\n\
+				Input:\n\
+				\t	-identifiers_file: pybios identifiers.py file\n\
+				\t	-sbml_file: sbml model\n\
+				\t	-cost_function_file: cost_func.txt file\n\
+				Example call: /home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/identifiers.py \
+				/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/Speedy_v3_r403445_v2.sbml \
+				/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/cost_func.txt\n\'

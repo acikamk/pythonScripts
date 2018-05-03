@@ -14,14 +14,14 @@ No experiment table or cost_function used. Model initialised with ones (random*)
 data.
 
 Input:
-ccompiled = path to the simtools c_compiled pybios model
-sap = path to the sap c_compiled pybios model
-sim_time =  time for the simulation
-x =  2 # number of species to check
-rand = true/false wether to use rand paramters or ones
-size_S = number of species in the model
-size_F = number of conditions in the model
-size_K = number of parameters in the model
+	ccompiled = path to the simtools c_compiled pybios model
+	sap = path to the sap c_compiled pybios model
+	sim_time =  time for the simulation
+	x =  2 # number of species to check
+	rand = true/false wether to use rand paramters or ones
+	size_S = number of species in the model
+	size_F = number of conditions in the model
+	size_K = number of parameters in the model
 
 """
 

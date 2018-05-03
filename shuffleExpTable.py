@@ -8,7 +8,7 @@ import pdb
 import random
 import os
 '''
-Add noise to input data - experiment table
+Generates 'shuffled' experiment table
 - shuffle columns internaly
 - shuffle rows RPKM values
 - output 4 combinations, row, cols and mixed of both
@@ -113,4 +113,8 @@ def main(exp_table_file, task):
 	return
 
 if __name__ == '__main__':
-	main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print "This function takes 2 input arguments, experiment table file and on of the following tasks: generate, plot or generate_plot."
+		print "\tUsage ex.: python addNoise2ExpTable.py exp_table.csv generate_plot"

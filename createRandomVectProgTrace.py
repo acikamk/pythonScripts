@@ -40,4 +40,9 @@ def main(model_path, numb_vect):
 	return
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print "The function has 2 input arguments: path to a optimized model" 
+		print "and number of random vectors which need to be generated as output from an optimization."
+		print "Usage ex.: pyhton createRandomVectProgTrace.py /project/V0001-1/modcell/users/a.kovachev/ 20 "

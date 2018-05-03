@@ -6,7 +6,7 @@ import pdb
 '''
 Compares two outputs from forward simulation and 
 input experiment tables for different runs.
-Checks for additional paraemters and their values.
+Checks for additional parameters and their values.
 
 '''
 
@@ -35,6 +35,7 @@ def main(model_path_1, model_path_2):
 	ids_vect_1, opti_vect_1 = get_progTrace(prog_1_file)
 	ids_vect_2, opti_vect_2 = get_progTrace(prog_2_file)
 
+	# check model sizes
 	if len(ids_vect_1) > len(ids_vect_2):
 		prim = ids_vect_1 
 		prim_v = opti_vect_1
@@ -70,7 +71,7 @@ def main(model_path_1, model_path_2):
 				if prim_v[i][prim.index(k)] != 1.0:
 					print "Problem found with drugTransl!"
 					pdb.set_trace()		
-
+	# check experiment tables
 	if exp_1.columns.tolist() != exp_2.columns.tolist():
 		print "Exp tables columns are not equal..."
 		pdb.set_trace()	
@@ -90,4 +91,8 @@ def main(model_path_1, model_path_2):
 	pdb.set_trace()
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print "This function takes two input arguments, paths to simulated model folders."
+		print "Usage ex.: py compare2inVecotors.py path_to_simulated_model1 path_to_simulated_model2"

@@ -13,6 +13,7 @@ sbml model file. This version only checks the matching number of species,
 constants and parameters and reports which values are missmatched. 
 #### TO DO: Report which values are missing/missmatched. #####
 """
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -59,8 +60,10 @@ def main(arg1, arg2):
 		# diff_sp_dict = {j[1]: k for k,j in diff_species.iteritems()}
 		# fixed_sp_dict = {j[1]: k for k,j in fixed_species.iteritems()}
 
-		sbml_dict_diff =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in diff_sp_dict.iteritems()}   
-		sbml_dict_fixed =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: j[1] for k,j in fixed_sp_dict.iteritems()} 
+		sbml_dict_diff =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: \
+						 j[1] for k,j in diff_sp_dict.iteritems()}   
+		sbml_dict_fixed =  {"SP_"+str(j[3])+"_"+ compartments[j[1].split(" in ")[1]]: \
+						 j[1] for k,j in fixed_sp_dict.iteritems()} 
 		    
 		pars_sp_dict = locals()['par_ids']
 		# import pdb; pdb.set_trace()
@@ -109,35 +112,43 @@ def main(arg1, arg2):
 				+ bcolors.ENDC
 			else:
 				if (len(diff_sb_dict.keys())<len(diff_sp_dict.keys())):
-					print [sbml_dict_diff[i] for i in sbml_dict_diff.keys() if i not in diff_sb_dict.keys()]
+					print [sbml_dict_diff[i] for i in sbml_dict_diff.keys() \
+							if i not in diff_sb_dict.keys()]
 				else:
-					print [diff_sb_dict[i] for i in diff_sb_dict.keys() if i not in sbml_dict_diff.keys()]
+					print [diff_sb_dict[i] for i in diff_sb_dict.keys() \
+							 if i not in sbml_dict_diff.keys()]
 				print bcolors.WARNING\
 				 + "PROBLEM! The identifiers.py and model.sbml file have different number of species and constants!"\
 				 + bcolors.ENDC
 		else:
 			# import pdb; pdb.set_trace()
 			if (len(diff_sb_dict.keys())<len(diff_sp_dict.keys())):
-				print [sbml_dict_diff[i] for i in sbml_dict_diff.keys() if i not in diff_sb_dict.keys()]
+				print [sbml_dict_diff[i] for i in sbml_dict_diff.keys() \
+						if i not in diff_sb_dict.keys()]
 			else:
-				print [diff_sb_dict[i] for i in diff_sb_dict.keys() if i not in sbml_dict_diff.keys()]
+				print [diff_sb_dict[i] for i in diff_sb_dict.keys()\
+						if i not in sbml_dict_diff.keys()]
 			print bcolors.WARNING \
 			 + "PROBLEM! The identifiers.py and model.sbml file have different number of species!"\
 			 + bcolors.ENDC
 	elif len(fixed_sb_dict.keys())!=len(fixed_sp_dict.keys()):
 		if len(pars_sb_dict.keys())!=len(pars_sp_dict.keys()):
 			if (len(fixed_sb_dict.keys())<len(fixed_sp_dict.keys())):
-				print [sbml_dict_fixed[i] for i in sbml_dict_fixed.keys() if i not in fixed_sb_dict.keys()]
+				print [sbml_dict_fixed[i] for i in sbml_dict_fixed.keys() \
+						 if i not in fixed_sb_dict.keys()]
 			else:
-				print [fixed_sb_dict[i] for i in fixed_sb_dict.keys() if i not in sbml_dict_fixed.keys()]
+				print [fixed_sb_dict[i] for i in fixed_sb_dict.keys() \
+						 if i not in sbml_dict_fixed.keys()]
 			print bcolors.WARNING \
 			+ "PROBLEM! The identifiers.py and model.sbml file have different number of constants and parameters!"\
 			+ bcolors.ENDC
 		else:
 			if (len(fixed_sb_dict.keys())>len(fixed_sp_dict.keys())):
-				print [sbml_dict_fixed[i] for i in sbml_dict_fixed.keys() if i not in fixed_sb_dict.keys()]
+				print [sbml_dict_fixed[i] for i in sbml_dict_fixed.keys() \
+						if i not in fixed_sb_dict.keys()]
 			else:
-				print [fixed_sb_dict[i] for i in fixed_sb_dict.keys() if i not in sbml_dict_fixed.keys()]
+				print [fixed_sb_dict[i] for i in fixed_sb_dict.keys() \
+						 if i not in sbml_dict_fixed.keys()]
 			print bcolors.WARNING \
 			+ "PROBLEM! The identifiers.py and model.sbml file have different number of constants!"\
 			+ bcolors.ENDC
@@ -152,4 +163,8 @@ def main(arg1, arg2):
 	return		
 
 if __name__ == "__main__":
-     main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print "This function has two input arguments, pybios model identifiers.py file and sbml model file"
+		print "Usage ex: python sanityCheck.py Speedy_v3/identifiers.py Speedy_v3/Speedy_v3.sbml"

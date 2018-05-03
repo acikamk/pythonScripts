@@ -10,6 +10,30 @@ import compiler
 import re
 import random
 
+"""
+Script that generates cost function (absolute or relative) 
+from tabfiles which contain simulations with the Project Manager
+
+Input:
+	- study_path - Path to PM project with Model and Studies folder
+		it is used to find the indentifiers.py file so has to be the 
+		root no the Studies folder
+	- tabfiles_path - Path to the Tabfiles folder
+	- mapping_table - Path to the MappingTable.txt file 
+	- n_sim - sumber of simulations performed in the Study, used 
+		to calculate average of the results
+	- cost_function - The cost formula that needs to be evaluated
+		in format as should be stored in the file (with k or kCDs)
+	- cost_function_name - the name (ID) of the cost function
+	- output_file -  name of the file where the generated cost function
+		will be stored. Path can/should be provided too
+	- absolute - True if abosulte cost function is generated, 
+		False if relative
+	- training - True if needs to generate two files one for training 
+		and one for testing
+
+"""
+
 def write_results(key, value, f, absolute, controls):
 
 	if absolute:	
@@ -19,8 +43,11 @@ def write_results(key, value, f, absolute, controls):
 			controls[key] = value
 		else:
 			if any(control in key for control in controls.keys()):	 
-				tumor = eval(reduce(lambda x, y: x.replace(y, str(conc_dict_samples[key][y])), conc_dict_samples[key], cost_function_noK))
-				c, control = [(c, controls[c]) for c in controls.keys() if key.startswith(c)][0]
+				tumor = eval(reduce(lambda x, y: x.replace(\
+					y, str(conc_dict_samples[key][y])), \
+				conc_dict_samples[key], cost_function_noK))
+				c, control = [(c, controls[c]) \
+				for c in controls.keys() if key.startswith(c)][0]
 				value = tumor/control
 				f.write(key + '/' + c  + '\t' + str(value)+ '\n')
 			else:
@@ -28,19 +55,24 @@ def write_results(key, value, f, absolute, controls):
 	return
 
 
-study_path = "/project/V0001-1/modcell/modcell_data/project_manager/7_OncoTrack/2017.03.20_15.32.00_573_Model_Test_for_Optimization/" 
-
-tabfiles_path = study_path + "Studies/2467_Testing_Model_Level1/AnalysisResults/Tabfiles/"
-mapping_table = study_path + "Studies/2467_Testing_Model_Level1/MappingTable.txt"
+# study_path = "/project/V0001-1/modcell/modcell_data/project_manager/7_OncoTrack/2017.03.20_15.32.00_573_Model_Test_for_Optimization/Studies/2467_Testing_Model_Level1/" 
+study_path = "/project/V0001-1/modcell/modcell_data/project_manager/5_TESTTEST/2018.04.06_09.46.34_733_Model_Mai17_exp_table/"
+tabfiles_path = study_path + "Studies/3679_CreateExpTableFitCelllinesTabFiles/AnalysisResults/Tabfiles/"
+mapping_table = study_path + "Studies/3679_CreateExpTableFitCelllinesTabFiles/MappingTable.txt"
 identifiers_file = study_path + "Model/identifiers.py"
-n_sim = 3
-cost_function = "(k0*[205]+k1*[710]+k2*[1180]+k3*[1658]+k4*[1638]+k5*[207]+k6*[1599])/(k7*[1028]+k8*[1025]+k9*[1074]+k10*[1027]+k11*[1026]+k12*[1077])"
+# n_sim = 3
+n_sim = 10
+# cost_function = "(k0*[205]+k1*[710]+k2*[1180]+k3*[1658]+k4*[1638]+k5*[207]+k6*[1599])/(k7*[1028]+k8*[1025]+k9*[1074]+k10*[1027]+k11*[1026]+k12*[1077])"
+cost_function = "(kCD0*[131]+kCD1*[1293]+kCD2*[130]+kCD3*[902]+kCD4*[326]+kCD5*[115]+kCD6*[325]+kCD7*[323]+kCD8*[919]+kCD9*[127]+kCD10*[829]+kCD11*[129])/(kCD12*[18]+kCD13*[19]+kCD14*[20]+kCD15*[21])"
 cost_function_name = "CellDivisionFunction"
-output_file = "cost_func.txt"
+output_file = "PM_quality_fit_cost_func.txt"
 absolute = False
-training = True
+training = False
 
-cost_function_noK = re.sub('k(\d+)\*', '', cost_function)
+if 'kCD' in cost_function:
+	cost_function_noK = re.sub('kCD(\d+)\*', '', cost_function)
+elif 'k' in cost_function:
+	cost_function_noK = re.sub('k(\d+)\*', '', cost_function)
 pybios_ids = re.findall(r"\[\d+\]", cost_function_noK)
 nominator = cost_function.split('/')[0][1:-1]
 denominator = cost_function.split('/')[1][1:-1]
@@ -77,7 +109,8 @@ for file in tumor_files.keys():
 				controls[tumor_files[file]] = None
 		f=open(tabfiles_path + file)
 		for line in f:
-			temp_dict[diff_sp_dict[' '.join(line.split()[0:-n_sim])]]= sum(float(x) for x in line.split()[-n_sim:])/n_sim
+			temp_dict[diff_sp_dict[' '.join(line.split()[0:-n_sim])]]= \
+				sum(float(x) for x in line.split()[-n_sim:])/n_sim
 			conc_dict_samples[tumor_files[file]] = temp_dict
 		f.close()
 	except:
@@ -93,7 +126,7 @@ if training:
 	testing_list = list(set(controls.keys())-set(training_list))
 	print sorted(testing_list)
 
-import pdb; pdb.set_trace()
+# import pdb; pdb.set_trace()
 
 # print results to file
 if training:
@@ -107,7 +140,9 @@ else:
 
 # import pdb; pdb.set_trace()
 for key in sorted(conc_dict_samples.keys()):
-	value = eval(reduce(lambda x, y: x.replace(y, str(conc_dict_samples[key][y])), conc_dict_samples[key], cost_function_noK))
+	value = eval(reduce(lambda x, y: x.replace(\
+		y, str(conc_dict_samples[key][y])), \
+		conc_dict_samples[key], cost_function_noK))
 	if training:
 		if key.split("_")[0] in training_list:
 			write_results(key, value, f_train, absolute, controls)
@@ -116,31 +151,10 @@ for key in sorted(conc_dict_samples.keys()):
 		else:
 			print "Key Error :)! " +key +"\n"
 	else:
-		write_results(key, value, f, absolute, controls, conc_dict_samples)
+		write_results(key, value, f, absolute, controls)
 
 if training:
 	f_train.close() 
 	f_test.close()
 else:
 	f.close()
-
-
-
-# formula = re.compile(r'\b(' + '|'.join(conc_dict_samples[key].keys()) + r')\b')
-#  # re.compile('|'.join(d.keys()))
-# result = pattern.sub(lambda x: conc_dict_samples[key][x.group()], cost_function_noK)
-
-# def get_value(formula, S, F):
-#     return eval(formula)
-# def evaluateFormula(formula)
-# 	for 
-
-
-# conc_dict_samples[tumor_files[file]] = \
-# 	[[float(x) for x in i.split()[-n_sim:]] for i in info]
-# keys = [' '.join(i.split()[0:-n_sim]) for i in info]
-# vals =[sum([float(x) for x in i.split()[-n_sim:]])/n_sim for i in info]
-# if not conc_dict:
-# 	for k in keys:
-# 		conc_dict[k] = []
-# [conc_dict[k].append(v) for k, v in zip(keys,vals)]

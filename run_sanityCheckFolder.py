@@ -3,6 +3,7 @@ import sys
 import os
 """
 Runs sanity check on the sbml and pybios models folders
+by calling the sanityCheck script
 """
 file_list=[]
 sbml_path = "/project/V0001-1/modcell/modcell_data/models/sbml_pybios_models/"

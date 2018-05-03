@@ -7,6 +7,8 @@ import random
 import os
 '''
 Shuffle optimized vectors x 5
+Input: optimized vectors file, i.e progress_trace.txt
+Ouptut: shuddled vectors file, i.e. shuffled_progress_trace.txt
 '''
 def main(input_file):
 

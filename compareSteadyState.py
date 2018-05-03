@@ -5,6 +5,21 @@ import collections
 from collections import OrderedDict as Odict
 import matplotlib.pyplot as plt 
 
+'''
+Script that compares two simulated files, after optmizations
+which where performed on simulated dataset.
+Inputs:
+	- sim files list, 
+	- initialization file, where the original parameter vector 
+		is present
+	-x, starting offset to which values to be plotted
+	-y, ending offset to which values to be plotted
+	  necessary since plotting of > 30/40 parameters
+	  is not comperhensive 
+Usage ex.:
+	python compareSteadyState.py '/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_Debug_ss_sim_test_0/outputs/simulated_vectors_file.txt /project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_Debug_ss_sim_test_1/outputs/simulated_vectors_file.txt' /project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_Notch_maml_abs.txt 0 5
+
+'''
 
 colors = ['b', 'g', 'c', 'm', 'r']
 def main(sim_files, init_file, x, y):
@@ -55,11 +70,12 @@ def main(sim_files, init_file, x, y):
 	ax.set_xticks(numpy.arange(1, y-x+2, 1))
 	plt.grid()
 	
-	# calculate  intersect between results
+	## some additional alaysis
+	## calculate  intersect between results
 	# init_vector_mod = {k: init_vector[k] for k in init_vector if k in sim_vector[0]}
 	# match_rand = []
 
-	# find parameters that are far from the random one but simlar between them
+	## find parameters that are far from the random one but simlar between them
 	# for ids in sim_vect_rev:
 	# 	if ids in init_vector_mod:
 	# 		if abs(sum(numpy.diff(sim_vect_rev[ids])))<0.2 \
@@ -69,7 +85,7 @@ def main(sim_files, init_file, x, y):
 	# 			match_rand.append(ids)	
 	# # import pdb; pdb.set_trace()	
 
-	# find 4 different groups of parameters
+	## find 4 different groups of parameters
 	# match = {}
 	# almost = {}
 	# far = {}
@@ -92,7 +108,7 @@ def main(sim_files, init_file, x, y):
 	# 			far[n].append(k)
 	# 		else:
 	# 			very_far[n].append(k)
-	# import pdb; pdb.set_trace()	
+	## import pdb; pdb.set_trace()	
 
 	# merge_vect = {k: (init_vector[k], sim_vector[k], abs(init_vector[k]-sim_vector[k])) for k in init_vector if k in sim_vector}
 	# merge_vect = Odict(sorted(merge_vect.items()))
@@ -116,4 +132,11 @@ def main(sim_files, init_file, x, y):
 	plt.show()
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+	try:
+		main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+	except:
+		print "Usage ex:"
+		print "python compareSteadyState.py '/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_maml_abs_test_0/outputs/simulated_vectors_file.txt /project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_maml_abs_test_1/outputs/simulated_vectors_file.txt' /project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_Notch_maml_abs.txt 0 45"
+		print "python compareSteadyState.py '/project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_maml_abs_test_0/outputs/simulated_vectors_file.txt /project/V0001-1/modcell/users/a.kovachev/Notch_Signalling_r377624/Notch_maml_abs_test_1/outputs/simulated_vectors_file.txt' /project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_Notch_maml_abs.txt 46 90"
+		print "NOTE: the list of simulated should be wrap around '' so can be recognized as string an parsed as list of files."
+		print "Please check the notation of the input files and the parameters size of the model for the offset."

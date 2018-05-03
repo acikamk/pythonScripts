@@ -11,6 +11,24 @@ import re
 import random
 import pdb
 
+'''
+Function that generates train and test split files from 
+an input cost_func.txt file
+Input:
+	- cost_function_file: path to the cost function file
+	- output_name: the name of the output files, preffix like
+	- n_tests (int): How many combination of train and test split to generate
+		if cv is True then these are dependent, else are independent 
+		samplings from the data
+	- cv (optional-bool): Default = True, whether to generate cross-validation
+		like sets where the draw of data is dependent between cvs
+	-shuffle_one (optional-bool): Default = False, if the the test to consist only 
+		one sample (leave-one-out method)
+Output:
+	- files stored in the folder where the original cost function is.... 
+		! check this might be a problem
+'''
+
 # cost_function_file = "/home/H0001-1/a.kovachev/simtools/data/models/Human_Model_0417/cost_function.txt"
 # output_name = "cost_func"
 # n_tests = 5
@@ -25,8 +43,8 @@ def getSampleName(sample):
 
 def saveData(output_name, cost_func_dict, i, training_list, testing_list):
 
-	f_train = open("./data/" + output_name + "_train_"+ str(i) + ".txt", 'w') 
-	f_test = open("./data/" + output_name + "_test_"+ str(i) + ".txt", 'w') 
+	f_train = open(output_name + "_train_"+ str(i) + ".txt", 'w') 
+	f_test = open(output_name + "_test_"+ str(i) + ".txt", 'w') 
 	for k in cost_func_dict.keys():
 
 		f_train.write("ID:" + k.split(':')[0] + '\t' + k.split(':')[1] + "\n")
@@ -44,6 +62,7 @@ def saveData(output_name, cost_func_dict, i, training_list, testing_list):
 
 
 def main(cost_function_file, output_name, n_tests, cv=True, shuffle_one=False):
+	output_name = cost_function_file.split('/')[:-1] + '/' + output_name
 	n_tests = int(n_tests)
 	controls = set()
 	# conc_dict_samples = Odict()
@@ -94,9 +113,21 @@ def main(cost_function_file, output_name, n_tests, cv=True, shuffle_one=False):
 	return
 
 if __name__ == "__main__":
-	if len(sys.argv) == 5:
-		main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-	if len(sys.argv) == 6:
-		main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
-	else:
-		main(sys.argv[1], sys.argv[2], sys.argv[3])
+	try:
+		if len(sys.argv) == 5:
+			main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+		if len(sys.argv) == 6:
+			main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+		else:
+			main(sys.argv[1], sys.argv[2], sys.argv[3])
+	except:
+		print 'Input:\
+ 			- cost_function_file: path to the cost function file\n\
+			- output_name: the name of the output files, preffix \n\
+			- n_tests (int): How many combination of train and test split to generate\
+			if cv is True then these are dependent, else are independent \
+			samplings from the data\n\
+			- cv (optional-bool): Default = True, whether to generate cross-validation\
+			like sets where the draw of data is dependent between cvs\n\
+			-shuffle_one (optional-bool): Default = False, if the the test to consist only \
+			one sample (leave-one-out method)\n'

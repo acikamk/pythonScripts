@@ -1,5 +1,9 @@
 import matplotlib.pyplot as plt
 
+'''
+Noting significant, just some plots from results for Hans
+'''
+
 fitness_same = [1.2684476800372846, 29.111040935987955, 6.9743849149343404]
 time_same = [0.07431412935256958, 0.008248186111450196, 0.03355675935745239]
 

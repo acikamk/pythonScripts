@@ -13,15 +13,15 @@ from os import listdir
 from os.path import isfile, join
 
 """
-Script that runs anaysis on the random forward simulations result of the 
+Script that runs anaysis on the random forward simulations results of the 
 runRandomSimulations.py sript.
 
 Inputs:
-expected_values: dict of the respective cost vanction and the values
-results_path = path to the rundom analysis results
+expected_values: dict of the respective cost function and the exp. values
+results_path = path to the random analysis results
 opti_sim_file = path to one optimized vector simulation results
 spec_id = id of the cost function species
-plot = if True than the plotsimresults.py script will be used
+plot = if True then the plotsimresults.py script will be used
 
 
 optional:

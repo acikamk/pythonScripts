@@ -8,7 +8,7 @@ from os import listdir
 from os.path import isfile, join
 """
 Script that compares the final steady state concentrations of the species 
-from optimized vector simulation with project manager and simtools.
+from optimized vector simulation with Project Manager and simtools.
 Input: 
 study_path = path to the project manager study 
 simulation_path = path to the simtools forward simulaton

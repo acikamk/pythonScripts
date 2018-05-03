@@ -18,8 +18,8 @@ import re
 """
 Script that runs a model to steady state for each given samples
 from experiment table independently and then creates 
-cost function file cosisting of cost function for each species. 
-Later on the created file sould be used for optimization to 
+cost function file consisting of cost function for each species. 
+Later on the created file should be used for optimization to 
 steady states.
 
 NOTE: The experiment table should be output from simtools, i.e. 
@@ -42,7 +42,12 @@ Input:
 Output:
  - cost_func_conc.txt - Cost function file 
 
- ### TO DO: Decide how to handle in/out params
+ ***TO DO: Decide how to handle in/out params***
+ NOTES: Might needs to be addopted to work with other input files
+ 		except hdf5...ex, progress_trace.txt
+ 	****output folder is hardcoded to:
+ 		/project/V0001-1/modcell/users/a.kovachev/data/data/!!!!
+ 	HDF4 files are hardcoded too...
 """
 
 class bcolors:
@@ -58,13 +63,13 @@ class bcolors:
 def main():
 	parser = argparse.ArgumentParser(description='Process input data.')
 	parser.add_argument('inputs_folder', type=existingDir,
-	                    help='Folder where the identifiers.py and exp_table.csv are present')
+	                    help='Folder where the identifiers.py and exp_table.csv are present.')
 	parser.add_argument('sufix', type=str,
-	                    help='Suffix name to add to the output files')
+	                    help='Suffix name to add to the output files.')
 	parser.add_argument('--fold', action='store_true',
-	                    help='(optional) - if prsent than store fold changes')
+	                    help='(optional) - if present then store fold changes.')
 	parser.add_argument('--cost_func', type=existingFilePath, default=None,
-	                    help='(optional) - file with cost functions observbles to be used')
+	                    help='(optional) - file with cost functions observbles to be used.')
 	parser.set_defaults(func=process_data)
 	args = parser.parse_args()
 	args.func(args)
@@ -81,7 +86,9 @@ def process_data(args):
 	model_id = inputs_folder[inputs_folder[:-1].rindex("/")+1:-1]
 	identifiers_file = existingFilePath(args.inputs_folder + "/identifiers.py")
 	exp_table_file = existingFilePath(args.inputs_folder + "/exp_table_sim_DMSO.csv")
+	# exp_table_file = existingFilePath(args.inputs_folder + "/exp_table.csv")
 	cost_func_file =  existingFilePath(args.inputs_folder + "/cost_func_empty.txt")
+	# cost_func_file =  existingFilePath(args.inputs_folder + "/cost_func.txt")
 	mapping_ids_file = existingFilePath(args.inputs_folder +  "/Speedy_v3_r403445.ID_mapping_parameters.txt")
 
 	file_h5_opti = "/home/H0001-1/a.kovachev/simtools/data/models/Speedy_v3_r403445/model-Speedy_v3_r403445_v2-srv23ib.712174.0-multistarts.h5"
@@ -96,6 +103,7 @@ def process_data(args):
 	opti_vectors = hdf5_opti["/finalParameters"]
 	best_opti_vect = np.array(opti_vectors[:,index])
 	
+	pdb.set_trace()
 	
 
 	hdf5_names = h5py.File(file_h5_names, 'r')
@@ -104,11 +112,13 @@ def process_data(args):
 	sbml2pybios_df = pd.read_table(mapping_ids_file, sep='\t', index_col=1)
 	sbml2pybios = sbml2pybios_df.to_dict()['ExperimentTable_id']
 
-	hdf52pybios = {i:sbml2pybios[j] for i in opti_names for j in sbml2pybios.keys() if i[:i.rindex("_")]==j+"_reaction"}
+	hdf52pybios = {i:sbml2pybios[j] for i in opti_names \
+		 for j in sbml2pybios.keys() if i[:i.rindex("_")]==j+"_reaction"}
 
 	dict_opti = dict(zip(opti_names, best_opti_vect))	
 
-	pybios2opti = {v1:v2 for k1,v1 in hdf52pybios.iteritems() for k2,v2 in dict_opti.iteritems() if k1==k2}
+	pybios2opti = {v1:v2 for k1,v1 in hdf52pybios.iteritems() \
+	 for k2,v2 in dict_opti.iteritems() if k1==k2}
 
 	# if args.cost_func:
 	# 	assert (len(str(args.cost_func).split())==2), "Incorect cost function format!"
@@ -142,7 +152,11 @@ def process_data(args):
 
 	# model stuff
 	bounds = (-1,1)
-	model = PyBiosModel(model_id, identifiers_file, exp_table_full, cost_func_file)
+	model = PyBiosModel(model_id, \
+						identifiers_file,\
+						exp_table_full,\
+						cost_func_file)
+
 	var_par_ids_list = model.get_var_par_ids_list(with_kcd=False)
 
 	if not file_h5_opti: 
@@ -151,7 +165,7 @@ def process_data(args):
 		  *(bounds[1] - bounds[0]) ) 
 	else:
 		varKParVect = np.power(10, [pybios2opti[i] for i in var_par_ids_list])
-
+	pdb.set_trace()
 	fixed_Ki = np.setdiff1d(xrange(model.dimK), 
 			model.variable_indexK_arr)
 	K = np.zeros(model.dimK)
@@ -159,9 +173,11 @@ def process_data(args):
 	if len(model.variable_indexK_arr) > 0:
 		K[model.variable_indexK_arr] = varKParVect
 
-	
-	par_ids_list = [pId for pId, par in model.parameters.items() if par.arrayId == 'K']
-	f = open("/project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_" + args.sufix +".txt", "w")
+	pdb.set_trace()
+	par_ids_list = [pId for pId, par in model.parameters.items() \
+									if par.arrayId == 'K']
+	f = open("/project/V0001-1/modcell/users/a.kovachev/data/data/init_vector_" \
+														+ args.sufix +".txt", "w")
 	f.write("PAR_IDS={}\n\n".format(par_ids_list))
 	f.write("VAR_PAR_IDX={}\n\n".format(model.variable_indexK_arr.tolist()))
 	f.write("VAR_PAR_IDS={}\n\n".format(var_par_ids_list))
@@ -174,15 +190,17 @@ def process_data(args):
 		 + "Running simulations for: " + sampleId\
 		 + bcolors.ENDC
 
-		
 		sample = model.samples[sampleId]
 		if len(fixed_Ki) > 0:
 			K[fixed_Ki] = sample.K[fixed_Ki] 
 		conc[sampleId] = run_simulation(sample, sampleId, K, f)
 	f.close()
+	pdb.set_trace()	
 	weight = 1
-	f1 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_abs_"+ args.sufix + ".txt", "w")
-	f2 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_fold_"+ args.sufix + ".txt", "w")
+	f1 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_abs_"\
+														+ args.sufix + ".txt", "w")
+	f2 = open("/project/V0001-1/modcell/users/a.kovachev/data/data/cost_func_fold_"\
+														+ args.sufix + ".txt", "w")
 	# try: 
 	print bcolors.OKGREEN \
  	 + "Saving to file " + f.name\
@@ -217,7 +235,9 @@ def parse_cost_file_formulas(file, diff_species):
 					cost_function_noK = re.sub('k(\d+)\*', '', cost_function)			
 				pybios_ids = re.findall(r"\[\d+\]", cost_function_noK)
 				# import pdb; pdb.set_trace()
-				cost_ids[(cost_id, cost_function, cost_function_noK)] = {k: j[0] for k, j in diff_species.iteritems() if k in pybios_ids}
+				cost_ids[(cost_id, cost_function, cost_function_noK)] = \
+						{k: j[0] for k, j in diff_species.iteritems()\
+													 if k in pybios_ids}
 	return cost_ids
 
 def create_cost_file_formula(cost_ids, conc_dict, f_abs, f_fold, weight, args):
@@ -230,28 +250,42 @@ def create_cost_file_formula(cost_ids, conc_dict, f_abs, f_fold, weight, args):
 		for sample in conc_dict.keys():
 			try:
 				# if not args.fold:
-				value_abs = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
+				value_abs = eval(reduce(lambda x, y: x.replace(\
+						y, \
+						str(conc_dict[sample][cost_ids[key][y]])),\
+						cost_ids[key].keys(), cost_function_noK))
 				# print value
 				# import pdb; pdb.set_trace()
 				f_abs.write("{}\t{}\t{}\n".format(sample,value_abs,weight))
 				# import pdb; pdb.set_trace()
 				if "_" in sample:
 					control = sample.split("_")[0]
-					value_t = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[sample][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
-					value_c = eval(reduce(lambda x, y: x.replace(y, str(conc_dict[control][cost_ids[key][y]])), cost_ids[key].keys(), cost_function_noK))
+					value_t = eval(reduce(lambda x, y: x.replace(\
+								y, \
+								str(conc_dict[sample][cost_ids[key][y]])),\
+								cost_ids[key].keys(),\
+								cost_function_noK))
+					value_c = eval(reduce(lambda x, y: x.replace(\
+								y,\
+								str(conc_dict[control][cost_ids[key][y]])),\
+								cost_ids[key].keys(),\
+								cost_function_noK))
 					if value_t == 0.0 and not value_c == 0.0:
 						value_fold = 0.0
 					elif value_t == value_c == 0.0:
 						value_fold = 1.0
 					elif value_c == 0.0 and not value_t == 0.0:
-						print ("Division by 0.0 with (cost, sample) = ({},{})".format(cost_id, sample))
+						print ("Division by 0.0 with (cost, sample) = ({},{})".format(\
+										cost_id, sample))
 						continue
 					else:
 						value_fold = value_t/value_c
-					f_fold.write("{}/{}\t{}\t{}\n".format(sample,control,value_fold,weight))
+					f_fold.write("{}/{}\t{}\t{}\n".format(\
+								sample,control,value_fold,weight))
 			except:
 				pdb.set_trace()
-				print ("Problem with (cost, sample, value_t, value_c) =({},{},{},{})".format(cost_id, sample, value_t, value_c))
+				print ("Problem with (cost, sample, value_t, value_c) =({},{},{},{})".\
+					format(cost_id, sample, value_t, value_c))
 
 	return
 
@@ -264,14 +298,16 @@ def create_cost_file_species(pyid, conc_dict, f_abs, f_fold, weight, args):
 			try:
 				# import pdb; pdb.set_trace()
 				if not args.fold:
-					f_abs.write("{}\t{}\t{}\n".format(sample,conc_dict[sample][key],weight))
+					f_abs.write("{}\t{}\t{}\n".format(\
+							sample,conc_dict[sample][key],weight))
 				elif "_" in sample:
 					control = sample.split("_")[0]
 					if conc_dict[control][key] == 0.0:
 						conc_dict[control][key] = 1e9
 					else:	
 						value = conc_dict[sample][key]/conc_dict[control][key]
-					f_fold.write("{}/{}\t{}\t{}\n".format(sample,control,value,weight))
+					f_fold.write("{}/{}\t{}\t{}\n".format(\
+								sample,control,value,weight))
 			except:
 				print ("Problem with sample {}".format(sample))
 
@@ -281,7 +317,7 @@ def run_simulation(sample, sampleId, K, f):
 	import modeltools
 	sim_time = 1e9	
 	mp = modeltools.ModelProcessor()
-
+	# pdb.set_trace()
 	res = mp.simulate(sample.S0, sim_time, sample.F, K)
 
 	f.write("CONC_{}={}\n\n".format(sampleId, res.finalState.tolist()))

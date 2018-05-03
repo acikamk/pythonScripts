@@ -11,7 +11,8 @@ import seaborn as sns
 # plt.style.use('seaborn-deep')
 '''
 Plots fitness distribution of given random simulation and
-optimized vectors
+optimized vectors file
+
 '''
 
 def mad_based_outlier(points, thresh=3.5):
@@ -69,11 +70,17 @@ def main(argv):
 	# pdb.set_trace()
 	if only_last:
 
-		sns.distplot(modified_rand, bins=range(1, 1000, 10), ax=ax, kde=False, label = 'random_fitness', hist_kws = {'edgecolor':'black', 'alpha': 0.7})
-		plt.plot(optimized_fitness, 0.1, color='r', marker = 'o', label='optimized fitness final')
+		sns.distplot(modified_rand, bins=range(1, 1000, 10), \
+			ax=ax, kde=False, \
+			label = 'random_fitness', \
+			hist_kws = {'edgecolor':'black', 'alpha': 0.7})
+		plt.plot(optimized_fitness, 0.1, color='r', \
+				marker = 'o', label='optimized fitness final')
 	else:
 		for (x, l) in [(modified_rand, 'random_fitness' ), (optimized_fitness, 'optimized_fitness')]:
-			sns.distplot(x, bins=range(1, 1000, 10), ax=ax, kde=False, label = l, hist_kws = {'edgecolor':'black', 'alpha': 0.7})
+			sns.distplot(x, bins=range(1, 1000, 10), \
+				ax=ax, kde=False, \
+			 	label = l, hist_kws = {'edgecolor':'black', 'alpha': 0.7})
 	ax.set_xlim([0, 1000])
 	plt.legend(loc="upper right")
 	plt.draw()
@@ -83,4 +90,9 @@ def main(argv):
 
 
 if __name__ == '__main__':
-	main(sys.argv[1:])
+	try:
+		main(sys.argv[1:])
+	except:
+		print "Prints plots of fitness distribution from random simulated file and simtools optmized file"
+		print "Input arguments: random simulated file (progress_trace like struct), progres_trace.txt and flag whether to analyse only the last vector (yes, y, t, true or 1)"
+		print "Usage ex.: python plotFitnessHist.py simulated_results.txt progress_trace.txt 1"

@@ -28,12 +28,16 @@ NOTE: Virtual enviroment should be activated before running the script
     - source venv/bin/activate
 Input:
     -Config file with input parameters defined below.
+        Example input file: bio_cfg.txt
 
 Output:
     -Plots of the T/C values for forward simulation for all responder
     and non-responder pairs.
-
+Note:
+    The simulations part is outdated, it can be easly modified with
+    direct simulation using the c-compiled versions of the model
 """
+
 # initialize Alacis Python config
 CONFIG = AlacrisConfig([ CONFIG_DATA_INPUT,
                          CONFIG_BIOMARKER_IDENT,
@@ -59,6 +63,7 @@ parser = argparse.ArgumentParser(description =
             EXPERIMENT_TABLE = <PATH_TO_EXP_TABLE_FILE>
             CCOMPILED_MODEL = <PATH_TO_CCOMPILED_MODEL_FILE>
             STUDY_PATH = <PATH_TO_OPTIMIZATION_RESULTS>
+
             [BIOMARKER_IDENT]
             RESPONDERS = <LIST_OF_RESP_NAMES>
             NON_RESPONDERS = <LIST_OF_NON_RESP_NAMES>
@@ -71,7 +76,7 @@ parser.add_argument('-c', '--config',
                     dest = 'config_file',
                     action = ReadConfig,
                     help = wrap_text("path to a config file." +
-                    "You get the config file structure by calling 'testSSSpeed -h'"))
+                    "You get the config file structure by calling 'pyhton runBiomarkID.py -h'"))
 
 def main():
     # Take the config file from command line
@@ -185,6 +190,7 @@ def ModifyCostFile(cost_func_file, sample):
     tmp_cost_file.close()
     return tmp_cost_file
 
+# intialize config for optimizations with simtools
 def initConfig(model_path, c_model, progress_trace_file):
     config = collections.defaultdict(dict)
     existingDir(model_path)
@@ -205,6 +211,7 @@ def initConfig(model_path, c_model, progress_trace_file):
     config["auto"]["modeltools_so"] = c_model
     config["socket_timeout"] = 36000
     return config
+
 
 def runSampleSimulation(config, tmp_exp_table, cost_func_file, sample):
     # set up the temporary config files

@@ -77,30 +77,32 @@ def convert2sbmlIDS(exp_tb, cost_f, iden_py):
 			exp_df = exp_tb
 		else:
 			exp_df = pandas.read_table(exp_tb, sep='\t', index_col=0)
+
+		as_list = exp_df.index.tolist()	
+		for i, el in enumerate(as_list):
+			if el in sbml_dict_fixed.keys():
+				as_list[i] = sbml_dict_fixed[el] 
+			elif el in sbml_dict_diff.keys():
+				as_list[i] = sbml_dict_diff[el]
+			elif el in sbml_dict_pars.keys(): 
+				as_list[i] = sbml_dict_pars[el]
+			else:
+				print "Unknown array ID: '{}'".format(el)
+
+		exp_df.index = as_list
+		exp_df.index.rename('ID', inplace=True) 
+		exp_file = exp_tb[:exp_tb.rindex(".")] + "_sbmlIDS.csv"
+		exp_df.to_csv(exp_file, sep='\t')
+		print bcolors.OKGREEN \
+		+ "Conversion of experiment table suceeded!" \
+		+ bcolors.ENDC
+
 	except:
 		print bcolors.FAIL \
-		+ "Inproper file format!" \
+		+ "Inproper file format! The experiment table wont't be converted." \
 		+ bcolors.ENDC
-		return
+		# return
 
-	as_list = exp_df.index.tolist()	
-	for i, el in enumerate(as_list):
-		if el in sbml_dict_fixed.keys():
-			as_list[i] = sbml_dict_fixed[el] 
-		elif el in sbml_dict_diff.keys():
-			as_list[i] = sbml_dict_diff[el]
-		elif el in sbml_dict_pars.keys(): 
-			as_list[i] = sbml_dict_pars[el]
-		else:
-			print "Unknown array ID: '{}'".format(el)
-
-	exp_df.index = as_list
-	exp_df.index.rename('ID', inplace=True) 
-	exp_file = exp_tb[:exp_tb.rindex(".")] + "_sbmlIDS.csv"
-	exp_df.to_csv(exp_file, sep='\t')
-	print bcolors.OKGREEN \
-	+ "Conversion of experiment table suceeded!" \
-	+ bcolors.ENDC
 	
 	cost_file = open((os.path.splitext(cost_f)[0])+"_sbmlIDS.txt", "w")
 	
@@ -121,9 +123,9 @@ def convert2sbmlIDS(exp_tb, cost_f, iden_py):
 		# import pdb; pdb.set_trace()
 	except:
 		print bcolors.FAIL \
-		+ "The cost function file was not parsed correctly!" \
+		+ "The cost function file was not parsed correctly and it won't be converted!" \
 	 	+ bcolors.ENDC
-		return
+		# return
 	return
 
 if __name__ == "__main__":
@@ -133,6 +135,7 @@ if __name__ == "__main__":
 		print bcolors.FAIL \
 		+ "Please insert the input files in correct order:" \
 		+ "experiment_table_file, cost_function_file, identifiers.py_file." \
-	 	+ bcolors.ENDC
+		+ "If you want to ommit one of the files just put a nonexisting file name (string)."
+		+ bcolors.ENDC
 		
 	

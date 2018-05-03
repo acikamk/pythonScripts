@@ -17,13 +17,16 @@ from prof import profiler_start, profiler_stop
 """
 Script that runs time course analysis of simple forward simulation for several models
 Additionaly can run profiler on the C code simulation function
+Outputs plots of the time analysis Times_figure.pdf and Times_compare.pdf
 
 Input argument:
-True - if given thatn simulations will be started with steady state starts
+True or true - if given thatn simulations will be started with steady state starts
 
-models = list of pybios models
-ccompiled = list of ther ccompiled files
-sim_time_vector  =  list of simulation times
+Additional input arguments direct from script:
+
+	models = list of pybios models
+	ccompiled = list of ther ccompiled files
+	sim_time_vector  =  list of simulation times
 
 """
 def check_steady_state(res_ccompile, cctime, not_in_steady_state):

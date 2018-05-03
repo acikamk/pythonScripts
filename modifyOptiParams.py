@@ -10,15 +10,19 @@ Inputs:
  - model_path =  path to the model structure
  - funct = remove, add or modify parameters
  - val =  which value to be assigned for add
- - ids = the pybios_ids model ids to bi handled
+ - ids = the pybios_ids model ids to be handled
 Output:
  - File = progress trace with modified parameters
+
 '''
+
 def main(model_path, funct, val, ids):
 
 	model_output = model_path+"/outputs/"
 	prog_file = model_output+"progress_trace.txt"
 	opti_vect = []
+	# extract ids and optimzed vectors 
+	# from progress_trace.txt
 	with open(prog_file) as f:	
 		for line in f:
 			if line.startswith("VARIABLE PAR IDS:"):
@@ -29,13 +33,15 @@ def main(model_path, funct, val, ids):
 				opti_vect.append(vect)
 	
 	ids_ind = []			
+	# get the ids which needs to be handled
 	for mid in ids:
 		ids_ind.extend([ids_vect.index(i) for i in ids_vect if mid==i])
 
+	# check the what function needs to be done
 	if funct == 'remove':
 		ids_vect = [i for j, i in enumerate(ids_vect) if j not in ids_ind]
 	if funct == 'add':
-		acc = 0
+		# acc = 0
 		for i in range(len(ids_ind)):
 			name = 'kCDn'+str(ids_ind[i])
 			ids_vect.insert(ids_ind[i], name)
@@ -46,7 +52,7 @@ def main(model_path, funct, val, ids):
 			res_v = [i for j, i in enumerate(vect) if j not in ids_ind]
 		if funct == 'add':
 			res_v = vect
-			acc = 0
+			# acc = 0
 			for i in range(len(ids_ind)):
 				res_v.insert(ids_ind[i], float(val))
 				# acc+=1
@@ -59,7 +65,6 @@ def main(model_path, funct, val, ids):
 	mod_prog = open(mod_prog_file, "w")
 
 	mod_prog.write("VARIABLE PAR IDS:\t" + str(ids_vect) + "\n\n")
-
 
 
 	for vect in res:

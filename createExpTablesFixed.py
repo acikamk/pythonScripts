@@ -21,16 +21,13 @@ Exp tables are generated.
 number of parameters = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2028, 3000]
 
 Inputs
-	- init vectors file init_vector_Hasenauer2_cellDiv_fold.txt
+	- init vectors file: output from runRandomSimulations..?
+	  ex: init_vector_Hasenauer2_cellDiv_fold.txt
 	- default experiment table precompiled with simtools
-	- model, identifiers.py?
+	- rand (bool, default=True) whether to sample the parameters
+		ids at random or sequentionaly
 Outputs
-	- experiment tables?
-	- config files
-		to change exp_table info 
-		to change duration_sec info
-		to change report_each_sec
-		to change job id info
+	- experiment tables
 '''
 
 def main(input_vectors_file, exp_table_file):
@@ -42,13 +39,13 @@ def main(input_vectors_file, exp_table_file):
 	vector = eval([l for l in data if l.startswith('RND_VECTOR')][0].split('=')[-1])
 	var_idx = eval([l for l in data if l.startswith('VAR_PAR_IDX')][0].split('=')[-1])
 	rnd_vect = [j for i, j in enumerate(vector) if i in var_idx] 
-	pdb.set_trace()	
+	# pdb.set_trace()	
 
 	assert len(var_ids) == len(rnd_vect), "Something wrong with input data!"
 
 	exp_table = pd.read_table(exp_table_file, index_col=0, low_memory=False)
 
-	nparam = [1, 2]
+	nparam = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2028, 3000]
 
 	for i in list(reversed(nparam)):
 		tmp_dict = Odict()
@@ -62,7 +59,8 @@ def main(input_vectors_file, exp_table_file):
 		
 		for j in fix:
 			if not j in tmp_dict:
-				tmp_dict[j] = [rnd_vect[var_ids.index(j)] for m in xrange(0, len(exp_table.columns))]
+				tmp_dict[j] = [rnd_vect[var_ids.index(j)] \
+				for m in xrange(0, len(exp_table.columns))]
 		
 		# pdb.set_trace()	
 	 	tmp_df = pd.DataFrame.from_dict(tmp_dict, orient='index', dtype='float64')	
@@ -75,4 +73,8 @@ def main(input_vectors_file, exp_table_file):
 		res.to_csv(name, sep = '\t')
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+	try:
+		main(sys.argv[1], sys.argv[2])
+	except:
+		print "Usage ex: \n\
+		python createExpTablesFiles.py init_vector_Hasenauer2_cellDiv_fold.txt exp_table2.csv"

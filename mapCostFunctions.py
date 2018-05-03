@@ -1,18 +1,20 @@
-import pandas
 from collections import OrderedDict as Odict
 import collections
 import sys 
 import pdb
 '''
-Function that modifies/removes/adds parameters
-to specific index places in optimized vectors
+Function that converts optimized vectors file from
+one model to be used as optimzied vectors file to other
+model. Handles the cost function definition too
+
 Inputs:
- - model_path =  path to the model structure
- - funct = remove, add or modify parameters
- - val =  which value to bi assign for add
- - ids = the pybios_ids model ids to bi handled
+ - model_path_1 = path to the model which is used as reference
+ - model_path_2 = path to the model to which the parameters 
+ 	are addapted to
+
 Output:
- - File
+ - File = swaped_progress_trace.txt
+Example handling the cost function:
 			+ 1.0										 +kCD1	      kCD5 		1.0          kCD6       kCD11      kCD8		    kCD9       kCD10       kCD7 		 kCD12      kCD13      kCD14      kCD15
  (kCD0*[131]+kCD1*[2227]+kCD2*[130]+kCD3*[902]+kCD4*[326]+kCD5*[1293]+kCD6*[115]+kCD7*[2229]+kCD8*[325]+kCD9*[129]+kCD10*[919]+kCD11*[127]+kCD12*[829]+kCD13*[323])/(kCD14*[18]+kCD15*[19]+kCD16*[20]+kCD17*[21])
  (kCD0*[131]+kCD1*[1293]+kCD2*[130]+kCD3*[902]+kCD4*[326]+kCD5*[115]+kCD6*[325]+kCD7*[323]+kCD8*[919]+kCD9*[127]+kCD10*[829]+kCD11*[129])/(kCD12*[18]+kCD13*[19]+kCD14*[20]+kCD15*[21])
@@ -55,7 +57,7 @@ def main(model_path_1, model_path_2):
 	modify model_1 progress_trace (ids and vectors) to appropriate
 	size and format so they can be used on model_2
 	The size of the progress trace should be same as the vector_ids 
-	of pt of model_2. Results are saved at model_1 path 
+	of progress_trace.txt of model_2. Results are saved at model_1 path 
 	'''
 
 	model_output_1 = model_path_1 +"/outputs/"
